@@ -1,3 +1,11 @@
+/*
+ * Carlton Knox - 11/23/2023
+ * SpaceObject class defines an object with a position, velocity, and bounds for grid
+ * includes bind function to wrap x or y position if exceeds bounds of grid
+ * updateLocation() moves the object in accordance with its velocity and the bounds of the screen
+ * The way bounds are used, as well as the data types of values are subject to change
+ */
+
 package com.example.asteroids_engine_test;
 
 import android.widget.Space;
