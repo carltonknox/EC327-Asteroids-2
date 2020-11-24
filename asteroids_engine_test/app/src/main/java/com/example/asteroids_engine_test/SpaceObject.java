@@ -26,6 +26,13 @@ public class SpaceObject {
         this.x = bind((this.x+this.dx),xMax);
         this.y = bind((this.y+this.dy),yMax);
     }
+    public int[] getXY()
+    {
+        int[] XY = new int[2];
+        XY[0] = this.x;
+        XY[1] = this.y;
+        return XY;
+    }
     public int bind(int num,int bound)
     {
         if(num>bound)
