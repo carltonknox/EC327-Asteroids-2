@@ -35,7 +35,6 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Final App" />
   </component>
@@ -244,6 +243,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="654" y="295" key="AndroidCreateResourceFileDialog/0.0.1920.1080/1920.0.1536.864@0.0.1920.1080" timestamp="1605753728923" />
+    <state x="372" y="6" key="CommitChangelistDialog2" timestamp="1606700920248">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="372" y="6" key="CommitChangelistDialog2/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1606700920248" />
     <state x="740" y="294" key="FileChooserDialogImpl" timestamp="1606177699259">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -252,9 +255,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="636" y="250" key="RollbackChangesDialog/0.0.1920.1080/1920.0.1536.864@0.0.1920.1080" timestamp="1606174757737" />
-    <state x="542" y="105" key="com.intellij.ide.util.TipDialog" timestamp="1606177658136">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="2354" y="80" key="com.intellij.ide.util.TipDialog" timestamp="1606700849752">
+      <screen x="1920" y="0" width="1536" height="824" />
     </state>
+    <state x="2354" y="80" key="com.intellij.ide.util.TipDialog/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1606700849752" />
     <state x="542" y="105" key="com.intellij.ide.util.TipDialog/0.0.1920.1080/1920.0.1536.864@0.0.1920.1080" timestamp="1606177658136" />
   </component>
 </project>
