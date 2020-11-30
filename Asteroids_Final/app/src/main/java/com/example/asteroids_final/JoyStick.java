@@ -28,7 +28,6 @@ public class JoyStick implements GameObject{
     {
         canvas.drawCircle(bigX,bigY,br,bc);
         canvas.drawCircle(smallX,smallY,sr,sc);
-
     }
 
     public void update()

@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 public class SpaceShip extends SpaceObject
 {
     // to determine how fast we want the ship to move;
-    private final int velocity = 10;
+    private final int velocity = 30;
     //we want ship to start in middle.
     private final static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -25,9 +25,10 @@ public class SpaceShip extends SpaceObject
     }
     public void update(JoyStick j)
     {
-        x+=(velocity*j.getPositionX());
-        y+=(velocity*j.getPositionY());
-
+        this.dx= (int) (velocity*j.getPositionX());
+        this.dy= (int) (velocity*j.getPositionY());
+        this.x = bind((this.x+this.dx),xMax);
+        this.y = bind((this.y+this.dy),yMax);
     }
 
     public void setPosition(int x,int y) {
