@@ -15,10 +15,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public int x;
 
     public int w,h;
-    private Asteroid aster1,aster2;
+    //private Asteroid aster1,aster2;
     private Asteroid[] asteroids;
+    private Ship ship;
     private int size;//size of array
-    Bitmap img = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
+    Bitmap astr = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
+    Bitmap shp = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_ship_red);
     Bitmap bg;
 
     public GamePanel(Context context)
@@ -47,11 +49,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void initiate()
     {
+        ship = new Ship(50,50,-2,-11,w,h,shp);
+
         size = 3;
         this.asteroids = new Asteroid[size];
-        asteroids[0] = new Asteroid(0,0,5,5,w,h,100,img);
-        asteroids[1] = new Asteroid(0,0,-20,7,w,h,150,img);
-        asteroids[2] = new Asteroid(0,0,16,-15,w,h,130,img);
+        asteroids[0] = new Asteroid(0,0,5,5,w,h,100,astr);
+        asteroids[1] = new Asteroid(0,0,-20,7,w,h,150,astr);
+        asteroids[2] = new Asteroid(0,0,16,-15,w,h,130,astr);
 
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
 
@@ -88,19 +92,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void update() {
 
-        for(int i = 0;i<size;i++)
+        for(int i = 0;i<size;i++) {
             this.asteroids[i].update();
-        //aster1.update();
+            ship.update();
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        canvas.drawBitmap(bg,0,0,null);
+        canvas.drawBitmap(bg,0,0,null);//paint background
 
-        for(int i = 0;i<size;i++)
-            this.asteroids[i].draw(canvas);
-        //aster1.draw(canvas);
+        for(int i = 0;i<size;i++) {
+            this.asteroids[i].draw(canvas);//paint each asteroid
+            ship.draw(canvas);
+        }
     }
 }
