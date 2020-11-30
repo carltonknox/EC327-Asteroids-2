@@ -1,9 +1,12 @@
 package com.example.asteroids_final;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -30,8 +33,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         thread = new MainThread(getHolder(), this);
 
         setFocusable(true);
-
-
     }
 
     @Override
@@ -48,7 +49,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void initiate()
     {
 
-        stick = new JoyStick(200,200);
+        stick = new JoyStick(500,(Resources.getSystem().getDisplayMetrics().heightPixels-200));;
 
         ship = new SpaceShip(shp);
 
@@ -127,6 +128,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         stick.draw(canvas);
 
         ship.draw(canvas);
+        /*Paint p = new Paint();
+        p.setColor(Color.BLUE);
+        canvas.drawCircle(ship.x,ship.y,10,p);
+        p.setColor(Color.WHITE);
+        canvas.drawCircle(ship.x,ship.y,5,p);*/
 
         for(int i = 0;i<size;i++) {
             this.asteroids[i].draw(canvas);//paint each asteroid

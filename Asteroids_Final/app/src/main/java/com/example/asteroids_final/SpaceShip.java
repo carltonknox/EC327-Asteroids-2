@@ -21,7 +21,14 @@ public class SpaceShip extends SpaceObject
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(ship, x, y, null);
+        int imgx = x-ship.getWidth()/2;
+        int imgy = y-ship.getHeight()/2;
+
+        canvas.drawBitmap(ship,imgx,imgy,null);
+        canvas.drawBitmap(ship,imgx+xMax,imgy,null);
+        canvas.drawBitmap(ship,imgx-xMax,imgy,null);
+        canvas.drawBitmap(ship,imgx,imgy+yMax,null);
+        canvas.drawBitmap(ship,imgx,imgy-yMax,null);
     }
     public void update(JoyStick j)
     {

@@ -12,8 +12,6 @@ import android.view.SurfaceView;
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread thread;
 
-    public int x;
-
     public int w,h;
     //private Asteroid aster1,aster2;
     private Asteroid[] asteroids;
