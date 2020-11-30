@@ -1,19 +1,29 @@
 /*
- * Carlton Knox - 11/23/2023
+ * Carlton Knox - 11/29/2023
  * SpaceObject class defines an object with a position, velocity, and bounds for grid
  * includes bind function to wrap x or y position if exceeds bounds of grid
  * updateLocation() moves the object in accordance with its velocity and the bounds of the screen
  * The way bounds are used, as well as the data types of values are subject to change
+ *
+ * includes draw function
  */
 
 package com.example.asteroids_engine_test;
 
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.widget.Space;
 
-public class SpaceObject {
+import com.example.asteroids_engine_test.GameObject;
+
+public abstract class SpaceObject implements GameObject {
     protected int x,y,xMax,yMax,dx,dy;
+    //Point xy,velocity;
     public SpaceObject(int x,int y,int dx,int dy,int xMax, int yMax)
     {
+        /*xy= new Point(x,y);
+        velocity = new Point(dx,dy);*/
+
         this.x=x;
         this.y=y;
         this.dx=dx;
@@ -21,17 +31,15 @@ public class SpaceObject {
         this.xMax=xMax;
         this.yMax=yMax;
     }
-    public void updateLocation()
+    public void update()
     {
         this.x = bind((this.x+this.dx),xMax);
         this.y = bind((this.y+this.dy),yMax);
     }
-    public int[] getXY()
+    public Point getXY()//Returns coordinates of object
     {
-        int[] XY = new int[2];
-        XY[0] = this.x;
-        XY[1] = this.y;
-        return XY;
+        Point xy = new Point(x,y);
+        return xy;
     }
     public int bind(int num,int bound)
     {
@@ -41,4 +49,5 @@ public class SpaceObject {
             return num+bound;
         else return num;
     }
+    public abstract void draw(Canvas Canvas);
 }
