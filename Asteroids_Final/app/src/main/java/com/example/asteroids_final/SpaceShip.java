@@ -6,23 +6,22 @@ import android.graphics.Canvas;
 
 public class SpaceShip extends SpaceObject
 {
-    private double x,y;
     // to determine how fast we want the ship to move;
     private final int velocity = 10;
     //we want ship to start in middle.
-    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private final static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Bitmap ship;
 
     public SpaceShip(Bitmap ship) {
+        super(screenWidth/2,screenHeight/2,0,0);
         this.ship = ship;
         //have to set middle fo screen
-        x=screenWidth/2;
-        y=screenHeight/2;
+
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(ship, (int)x, (int)y, null);
+        canvas.drawBitmap(ship, x, y, null);
     }
     public void update(JoyStick j)
     {
@@ -31,7 +30,7 @@ public class SpaceShip extends SpaceObject
 
     }
 
-    public void setPosition(float x,float y) {
+    public void setPosition(int x,int y) {
         this.x=x;
         this.y=y;
     }

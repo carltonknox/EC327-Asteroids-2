@@ -8,7 +8,7 @@ public class Asteroid extends SpaceObject {
     protected Bitmap img;
     Asteroid(int x,int y,int dx,int dy,int xMax, int yMax, int size,Bitmap img)
     {
-        super(x,y,dx,dy,xMax,yMax);
+        super(x,y,dx,dy);
         this.size=size;
         this.img = Bitmap.createScaledBitmap(img,(int)(2.5*size),(int)(2.5*size),false);
     }
