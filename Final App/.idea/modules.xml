@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Asteroids_2.iml" filepath="$PROJECT_DIR$/.idea/modules/Asteroids_2.iml" group="Asteroids_2" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="Asteroids 2/app" />
-    </modules>
-  </component>
-</project>
