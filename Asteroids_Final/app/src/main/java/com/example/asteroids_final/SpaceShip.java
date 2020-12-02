@@ -11,25 +11,13 @@ public class SpaceShip extends SpaceObject
     //we want ship to start in middle.
     private final static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private Bitmap ship;
 
     public SpaceShip(Bitmap ship) {
         super(screenWidth/2,screenHeight/2,0,0);
-        this.ship = ship;
+        this.img = ship;
         //have to set middle fo screen
-
     }
 
-    public void draw(Canvas canvas) {
-        int imgx = x-ship.getWidth()/2;
-        int imgy = y-ship.getHeight()/2;
-
-        canvas.drawBitmap(ship,imgx,imgy,null);
-        canvas.drawBitmap(ship,imgx+xMax,imgy,null);
-        canvas.drawBitmap(ship,imgx-xMax,imgy,null);
-        canvas.drawBitmap(ship,imgx,imgy+yMax,null);
-        canvas.drawBitmap(ship,imgx,imgy-yMax,null);
-    }
     public void update(JoyStick j)
     {
         this.dx= (int) (velocity*j.getPositionX());

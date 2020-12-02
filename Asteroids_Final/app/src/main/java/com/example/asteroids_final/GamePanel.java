@@ -17,10 +17,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public int w,h;
     //private Asteroid aster1,aster2;
     private Asteroid[] asteroids;
+    private Asteroid testeroid;
     private SpaceShip ship;
     private JoyStick stick;
     private int size;//size of array
     Bitmap astr = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
+    Bitmap astr2 = BitmapFactory.decodeResource(getResources(),R.drawable.asteroid_grey);
     Bitmap shp = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_ship_red);
     Bitmap bg;
 
@@ -48,8 +50,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void initiate()
     {
-
-        stick = new JoyStick(500,(Resources.getSystem().getDisplayMetrics().heightPixels-200));;
+        testeroid = new Asteroid(0,0,0,0,100,astr2);
+        stick = new JoyStick(500,(Resources.getSystem().getDisplayMetrics().heightPixels-200));
 
         ship = new SpaceShip(shp);
 
@@ -135,8 +137,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         canvas.drawCircle(ship.x,ship.y,5,p);*/
 
         for(int i = 0;i<size;i++) {
-            this.asteroids[i].draw(canvas);//paint each asteroid
-
+            this.asteroids[i].draw(canvas);//paint ea
         }
+        testeroid.draw(canvas);
     }
 }
