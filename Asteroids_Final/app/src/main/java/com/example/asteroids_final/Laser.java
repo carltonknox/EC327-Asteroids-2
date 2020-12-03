@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-public class Laser
+public class Laser extends SpaceObject
 {
     private int x,y;
     private double vX,vY;
@@ -15,6 +15,7 @@ public class Laser
 
     Laser(int x, int y, float angle)
     {
+        super(x,y,0,0);
         this.x=x;
         this.y=y;
         this.angle=angle;
@@ -32,12 +33,12 @@ public class Laser
         System.out.println(vY);
     }
 
+    @Override
     public void draw(Canvas canvas)
     {
         canvas.drawCircle(x,y,r,c);
-
-
     }
+    @Override
     public void update()
     {
         if(angle <=90)
@@ -60,9 +61,12 @@ public class Laser
             x+=vX;
             y-=vY;
         }
+    }
 
-
-
-
+    public boolean isInBounds()
+    {
+        if(x>xMax||x<0||y>yMax||y<0)
+            return false;
+        return true;
     }
 }

@@ -12,16 +12,19 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread thread;
 
     protected int w,h;
     protected ArrayList<Asteroid> asterList;
-    protected Asteroid[] asteroids;
     protected SpaceShip ship;
     protected JoyStick stick;
-    private int size;//size of array
+    private FireButton button;
+
+    private ArrayList<Laser> lasers;
 
     Bitmap astr = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
     Bitmap astr2 = BitmapFactory.decodeResource(getResources(),R.drawable.asteroid_grey);
@@ -53,15 +56,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void initiate()
     {
-        stick = new JoyStick(w/2,(h-200));
+        stick = new JoyStick(w/2-300,(h-200));
+        button = new FireButton(w/2+300,h-200);
 
+        asterList = new ArrayList<Asteroid>();
 
+        for(int i = 0;i<3;i++){
+            Random rand = new Random();
+            int newX = rand.nextInt(w);
+            int newY = rand.nextInt(h);
+            int newDX = rand.nextInt(41)-20;
+            int newDY = rand.nextInt(41)-20;
+            int newSize = rand.nextInt(76)+75;
 
-        size = 3;
-        this.asteroids = new Asteroid[size];
-        asteroids[0] = new Asteroid(0,0,5,5,100,astr);
-        asteroids[1] = new Asteroid(0,0,-20,7,150,astr);
-        asteroids[2] = new Asteroid(0,0,16,-15,130,astr);
+            asterList.add(new Asteroid(newX,newY,newDX,newDY,newSize,astr));
+        }
+
+        lasers = new ArrayList<Laser>();
 
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
         shp2 = Bitmap.createScaledBitmap(shp,shp.getWidth()*2/3,shp.getHeight()*2/3,false);
@@ -102,6 +113,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 {
                     stick.setIsPressed(true);
                 }
+                else if(button.isPressed(event.getX(), event.getY()))
+                {
+
+                    button.setIsPressed(true);
+                }
                 return true;
             case MotionEvent.ACTION_MOVE:
                 if(stick.getIsPressed())
@@ -111,6 +127,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 return true;
             case MotionEvent.ACTION_UP:
                 stick.setIsPressed(false);
+                button.setIsPressed(false);
                 stick.resetPosition();
                 return true;
         }
@@ -119,11 +136,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void update() {
         ship.update(stick);
+        button.update();
         stick.update();
-
-        for(int i = 0;i<size;i++) {
-            this.asteroids[i].update();
-            //ship.update();
+        if(button.getIsPressed()==true)
+            this.lasers.add(new Laser(ship.getX(),ship.getY(),ship.getA()));
+        for(int i = 0;i<asterList.size();i++) {
+            this.asterList.get(i).update();
+        }
+        for(int i = 0;i<lasers.size();i++){
+            lasers.get(i).update();
+            if(!lasers.get(i).isInBounds())
+                lasers.remove(i--);
         }
     }
 
@@ -134,10 +157,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         ship.draw(canvas);
 
-        for(int i = 0;i<size;i++) {
-            this.asteroids[i].draw(canvas);//paint ea
+        for(int i = 0;i<asterList.size();i++) {
+            this.asterList.get(i).draw(canvas);//paint each asteroid
         }
-
+        for(int i = 0;i<lasers.size();i++){
+            lasers.get(i).draw(canvas);
+        }
         stick.draw(canvas);
+        button.draw(canvas);
     }
 }
