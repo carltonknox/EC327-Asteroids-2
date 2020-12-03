@@ -11,19 +11,22 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread thread;
 
-    public int w,h;
-    //private Asteroid aster1,aster2;
-    private Asteroid[] asteroids;
-    private Asteroid testeroid;
-    private SpaceShip ship;
-    private JoyStick stick;
+    protected int w,h;
+    protected ArrayList<Asteroid> asterList;
+    protected Asteroid[] asteroids;
+    protected SpaceShip ship;
+    protected JoyStick stick;
     private int size;//size of array
+
     Bitmap astr = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
     Bitmap astr2 = BitmapFactory.decodeResource(getResources(),R.drawable.asteroid_grey);
     Bitmap shp = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_ship_red);
+    Bitmap shp2;
     Bitmap bg;
 
     public GamePanel(Context context)
@@ -50,10 +53,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void initiate()
     {
-        testeroid = new Asteroid(0,0,0,0,100,astr2);
-        stick = new JoyStick(500,(Resources.getSystem().getDisplayMetrics().heightPixels-200));
+        stick = new JoyStick(w/2,(h-200));
 
-        ship = new SpaceShip(shp);
+
 
         size = 3;
         this.asteroids = new Asteroid[size];
@@ -62,6 +64,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         asteroids[2] = new Asteroid(0,0,16,-15,130,astr);
 
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
+        shp2 = Bitmap.createScaledBitmap(shp,shp.getWidth()*2/3,shp.getHeight()*2/3,false);
+
+        ship = new SpaceShip(shp2);
 
     }
 
@@ -127,18 +132,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         super.draw(canvas);
         canvas.drawBitmap(bg,0,0,null);//paint background
 
-        stick.draw(canvas);
-
         ship.draw(canvas);
-        /*Paint p = new Paint();
-        p.setColor(Color.BLUE);
-        canvas.drawCircle(ship.x,ship.y,10,p);
-        p.setColor(Color.WHITE);
-        canvas.drawCircle(ship.x,ship.y,5,p);*/
 
         for(int i = 0;i<size;i++) {
             this.asteroids[i].draw(canvas);//paint ea
         }
-        testeroid.draw(canvas);
+
+        stick.draw(canvas);
     }
 }

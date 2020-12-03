@@ -23,6 +23,9 @@ public class GameThread extends Thread
     {
         isRunning=true;
         start();
+        //this.game.initiate();
+
+
     }
     public void endGame()
     {

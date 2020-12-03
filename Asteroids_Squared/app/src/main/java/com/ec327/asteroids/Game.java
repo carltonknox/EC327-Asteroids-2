@@ -2,6 +2,7 @@ package com.ec327.asteroids;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,9 +20,23 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
 
     // Make a new thread for game computation
+
+    private int w=Resources.getSystem().getDisplayMetrics().widthPixels;;
+    private int h=Resources.getSystem().getDisplayMetrics().heightPixels;;
+    //private Asteroid aster1,aster2;
+    private Asteroid[] asteroids;
+    private int size;//size of array
     private GameThread thread;
-    private SpaceShip  ship = new SpaceShip(BitmapFactory.decodeResource(getResources(),R.drawable.ship1));;
+    private SpaceShip  ship = new SpaceShip(BitmapFactory.decodeResource(getResources(),R.drawable.shipon)
+            ,BitmapFactory.decodeResource(getResources(),R.drawable.shippoff));
     private JoyStick joyStick = new JoyStick(200,(Resources.getSystem().getDisplayMetrics().heightPixels-200));
+    private FireButton button = new FireButton((Resources.getSystem().getDisplayMetrics().widthPixels-200),
+             (Resources.getSystem().getDisplayMetrics().heightPixels-200));
+    private Laser shot = new Laser((Resources.getSystem().getDisplayMetrics().widthPixels+100),
+            Resources.getSystem().getDisplayMetrics().heightPixels+100,
+            0);
+    Bitmap astr = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
+    Bitmap bg;
     public Game(Context context) {
         super(context);
         getHolder().addCallback(this);
@@ -33,27 +48,67 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void update()
     {
         ship.update(joyStick);
+        button.update();
         joyStick.update();
+        if(button.getIsPressed()==true)
+        {
+
+            this.shot=new Laser(ship.getX(),ship.getY(),ship.getA());
+        }
+        shot.update();
+        for(int i = 0;i<size;i++) {
+            this.asteroids[i].update();
+        }
+
+    }
+    public void initiate(){
+
+
+
+            size = 3;
+           this.asteroids = new Asteroid[size];
+            asteroids[0] = new Asteroid(0,0,5,5,w,h,30,astr);
+           asteroids[1] = new Asteroid(0,0,-20,7,w,h,40,astr);
+            asteroids[2] = new Asteroid(0,0,16,-15,w,h,50,astr);
+          bg =Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
+
+
 
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+
+
+        canvas.drawBitmap(bg,0,0,null);//paint background
         joyStick.draw(canvas);
+        button.draw(canvas);
         ship.draw(canvas);
+        shot.draw(canvas);
+        for(int i = 0;i<size;i++) {
+           this.asteroids[i].draw(canvas);//paint each asteroid
+
+        }
     }
+
 
     // Need to override these methods
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
+        this.initiate();
         thread.startGame();
 
     }
 
-    @Override
-    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
 
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+    {
+        this.w=width;
+        this.h=height;
+        System.out.print(w);
+        System.out.print(" ");
+        System.out.println(h);
     }
 
     @Override
@@ -72,6 +127,11 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                 {
                     joyStick.setIsPressed(true);
                 }
+                else if(button.isPressed(event.getX(), event.getY()))
+                {
+
+                    button.setIsPressed(true);
+                }
                 return true;
             case MotionEvent.ACTION_MOVE:
                 if(joyStick.getIsPressed())
@@ -81,6 +141,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                 return true;
             case MotionEvent.ACTION_UP:
               joyStick.setIsPressed(false);
+              button.setIsPressed(false);
               joyStick.resetPosition();
                 return true;
         }
