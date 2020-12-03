@@ -1,0 +1,64 @@
+package com.example.asteroids_final;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
+
+public class Asteroid extends SpaceObject {
+    protected int size;
+    protected Bitmap img;
+    private Rect hitBox;
+
+    Asteroid(int x,int y,int dx,int dy,int size,Bitmap img)
+    {
+        super(x,y,dx,dy);
+
+        this.size=size;
+        this.img = Bitmap.createScaledBitmap(img,(int)(2.5*size),(int)(2.5*size),false);
+        hitBox = new Rect();
+
+    }
+
+    public void draw(Canvas canvas)
+    {
+
+        /*Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        canvas.drawCircle(this.x,this.y,this.size,paint);*/
+
+        int imgx = x-img.getWidth()/2;
+        int imgy = y-img.getHeight()/2;
+
+        canvas.drawBitmap(img,imgx,imgy,null);
+        canvas.drawBitmap(img,imgx+xMax,imgy,null);
+        canvas.drawBitmap(img,imgx-xMax,imgy,null);
+        canvas.drawBitmap(img,imgx,imgy+yMax,null);
+        canvas.drawBitmap(img,imgx,imgy-yMax,null);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.MAGENTA);
+        canvas.drawRect(hitBox, paint);
+    }
+
+    public boolean collision(SpaceShip ship){
+        return Rect.intersects(this.hitBox, ship.getHitBox()); // NEW METHOD TO DETECT HITBOX INTERSECTION
+
+    }
+
+    public void updateHitBox() {
+        hitBox.set(this.getXY().x + img.getWidth()/2, this.getXY().y + img.getHeight()/2, // UPDATE HITBOX
+                this.getXY().x-img.getWidth()/2, this.getXY().y-img.getHeight()/2);
+
+    }
+
+    public Rect getHitBox(){
+        return hitBox; // RETURN HITBOX
+    }
+
+
+
+}
