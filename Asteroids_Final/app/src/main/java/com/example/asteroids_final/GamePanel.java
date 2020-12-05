@@ -16,8 +16,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
-    private MainThread thread;
 
+    private MainThread thread;
     protected int w,h;
     protected ArrayList<Asteroid> asterList;
     protected SpaceShip ship;
@@ -61,15 +61,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         asterList = new ArrayList<Asteroid>();
 
+        //Generate random asteroids
         for(int i = 0;i<3;i++){
-            Random rand = new Random();
-            int newX = rand.nextInt(w);
-            int newY = rand.nextInt(h);
-            int newDX = rand.nextInt(41)-20;
-            int newDY = rand.nextInt(41)-20;
-            int newSize = rand.nextInt(76)+75;
-
-            asterList.add(new Asteroid(newX,newY,newDX,newDY,newSize,astr));
+            asterList.add(generateRandomAsteroid());
         }
 
         lasers = new ArrayList<Laser>();
@@ -79,6 +73,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         ship = new SpaceShip(shp2);
 
+    }
+
+    public Asteroid generateRandomAsteroid(){
+        Random rand = new Random();
+
+        int spawnRadius = 500;//radius to spawn asteroids
+        int newX = 0;
+        int newY = 0;
+        while((newX<=spawnRadius)&&newY<=spawnRadius) {
+            newX = rand.nextInt(w);
+            newY = rand.nextInt(h);
+        }
+
+        int newDX = rand.nextInt(41)-20;
+        int newDY = rand.nextInt(41)-20;
+        int newSize = rand.nextInt(76)+75;
+        return new Asteroid(newX+w/2,newY+h/2,newDX,newDY,newSize,astr);
     }
 
     @Override

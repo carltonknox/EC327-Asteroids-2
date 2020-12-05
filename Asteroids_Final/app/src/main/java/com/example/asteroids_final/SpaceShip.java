@@ -3,6 +3,7 @@ package com.example.asteroids_final;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 
 public class SpaceShip extends SpaceObject {
@@ -16,6 +17,7 @@ public class SpaceShip extends SpaceObject {
     private Bitmap finalShip;
     private float degrees;//rotation degree
     private Matrix matrix = new Matrix();
+    private Circle hitBox = new Circle();
 
     public SpaceShip(Bitmap ship) {
         super(screenWidth / 2, screenHeight / 2, 0, 0);
@@ -46,6 +48,8 @@ public class SpaceShip extends SpaceObject {
         } else {
             img = Bitmap.createBitmap(ship1, 0, 0, ship1.getWidth(), ship1.getHeight(), matrix, true);
         }
+
+        hitBox.set(this.getXY(), ship1.getHeight()/2, Color.MAGENTA);
     }
 
     public void setPosition(int x, int y) {
@@ -63,5 +67,9 @@ public class SpaceShip extends SpaceObject {
 
     public float getA() {
         return (float) degrees;
+    }
+
+    public Circle getHitBox(){
+        return hitBox;
     }
 }
