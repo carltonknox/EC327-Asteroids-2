@@ -25,6 +25,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     protected JoyStick stick;
     private FireButton button;
     private long time;
+    private final int initialAsteroids = 1;
+
+    private int jstickP=0;
+    private int bttnP=1;
+
+    private int scaleSpeed;
+    private int kills;
 
     private ArrayList<Laser> lasers;
 
@@ -36,6 +43,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     Bitmap shp = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_ship_red);
     Bitmap shp2;
     Bitmap bg;
+
+    Random rand = new Random();
 
     public GamePanel(Context context)
     {
@@ -61,6 +70,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void initiate()
     {
+        scaleSpeed=1;
+        kills = 0;
         time = System.currentTimeMillis();
 
         stick = new JoyStick(w/2-300,(h-200));
@@ -69,7 +80,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         asterList = new ArrayList<Asteroid>();
 
         //Generate random asteroids
-        for(int i = 0;i<3;i++){
+        for(int i = 0;i<initialAsteroids;i++){
             asterList.add(generateRandomAsteroid());
         }
 
@@ -81,29 +92,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         ship = new SpaceShip(shp2);
 
     }
-
     public void newGame()
     {
         lasers.clear();
         asterList.clear();
 
-        asterList = new ArrayList<Asteroid>();
+        //asterList = new ArrayList<Asteroid>();
 
-        //Generate random asteroids
-        for(int i = 0;i<3;i++){
+        for(int i = 0;i<initialAsteroids;i++){
             asterList.add(generateRandomAsteroid());
         }
 
-        lasers = new ArrayList<Laser>();
-
-        bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
-        shp2 = Bitmap.createScaledBitmap(shp,shp.getWidth()*2/3,shp.getHeight()*2/3,false);
-
-        ship = new SpaceShip(shp2);
+        //lasers = new ArrayList<Laser>();
     }
 
     public Asteroid generateRandomAsteroid(){
-        Random rand = new Random();
+
 
         int spawnRadius = 500;//radius to spawn asteroids
         int newX = 0;
@@ -113,8 +117,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             newY = rand.nextInt(h);
         }
 
-        int newDX = rand.nextInt(41)-20;
-        int newDY = rand.nextInt(41)-20;
+        int newDX = (rand.nextInt(41)-20)*scaleSpeed;
+        int newDY = (rand.nextInt(41)-20)*scaleSpeed;
         int newSize = rand.nextInt(76)+75;
         return new Asteroid(newX+w/2,newY+h/2,newDX,newDY,newSize,astr);
     }
@@ -178,21 +182,46 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         return super.onTouchEvent(event);
     }
 
+
     public void update() {
-        ship.update(stick);
-        button.update();
-        stick.update();
-        if(button.getIsPressed()==true && (System.currentTimeMillis()-time)>500) {
-            this.lasers.add(new Laser(ship.getX(), ship.getY(), ship.getA()));
-            time = System.currentTimeMillis();
-        }
-        for(int i = 0;i<asterList.size();i++) {
-            this.asterList.get(i).update();
-        }
-        for(int i = 0;i<lasers.size();i++){
-            lasers.get(i).update();
-            if(!lasers.get(i).isInBounds())
-                lasers.remove(i--);
+        if  (!collide) {
+            ship.update(stick);
+            button.update();
+            stick.update();
+            if (button.getIsPressed() == true && (System.currentTimeMillis() - time) > 500) {
+                this.lasers.add(new Laser(ship.getX(), ship.getY(), ship.getA()));
+                time = System.currentTimeMillis();
+            }
+            for (int i = 0; i < asterList.size(); i++) {
+                this.asterList.get(i).update();
+                this.asterList.get(i).updateHitBox();
+                if (asterList.get(i).collision(ship)) {
+                    collide = true;
+                    break;
+                }
+            }
+            for (int i = 0; i < lasers.size(); i++) {
+                lasers.get(i).update();
+                if (!lasers.get(i).isInBounds())
+                    lasers.remove(i--);
+            }
+            for (int i = 0; i < asterList.size(); i++) {
+                for (int j = 0; j < lasers.size(); j++) {
+                    if (asterList.get(i).collision(lasers.get(j))) {
+                        lasers.remove(j--);
+                        asterList.remove(i--);
+                        kills++;
+                    }
+                }
+            }
+            if (kills >= 10) {
+                scaleSpeed++;
+                kills = 0;
+                //score
+            }
+            //has as 1/100 chance of generating an asteroid each loop
+            if (rand.nextInt(100) == 1 && asterList.size() < 4)
+                asterList.add(generateRandomAsteroid());
         }
     }
 
