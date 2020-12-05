@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.asteroids_engine_test.Person;
 
 import org.w3c.dom.Text;
 
@@ -16,6 +17,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Leaderboards extends AppCompatActivity {
 
@@ -26,6 +30,7 @@ public class Leaderboards extends AppCompatActivity {
 
         File path = new File(Environment.getExternalStorageDirectory()+File.separator+"Asteroids");
         File file = new File(path,"data.dat");
+        ArrayList<Person> list = new ArrayList<Person>();
         String scores[] = new String[256];
         String names[] = new String[256];
         TextView nameText[] = new TextView[5];
@@ -50,9 +55,12 @@ public class Leaderboards extends AppCompatActivity {
             int satir = 0;
             int iter = 0;
 
+
             while ((line = bruh.readLine()) != null) {
                 text.append(line);
                 text.append('\n');
+
+
                 if(satir%2==0 && !line.isEmpty()) {
                     names[iter] = line;
                 }
@@ -70,13 +78,23 @@ public class Leaderboards extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        for(int i=0;i<=4;i++) {
+        Person[] pe = new Person[256];
+        for(int i=0;i<names.length;i++) {
+            pe[i] = new Person();
+            pe[i].setName(names[i]);
+            pe[i].setScore(scores[i]);
+            list.add(i, pe[i]);
+        }
+        Toast.makeText(this, "index 1 name -> " + list.isEmpty(), Toast.LENGTH_SHORT).show();
+        Collections.sort(list);
+
+        for(int i=0;i<list.size();i++) {
             try{
-                nameText[i].setText(names[i]);
-                scoreText[i].setText(scores[i]);
+                nameText[i].setText(list.get(i).name);
+                scoreText[i].setText(list.get(i).score);
             }
             catch (Exception e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -95,4 +113,5 @@ public class Leaderboards extends AppCompatActivity {
             Toast.makeText(this, "Well, this is awkward...", Toast.LENGTH_SHORT).show();
         }
     }
+
 }
