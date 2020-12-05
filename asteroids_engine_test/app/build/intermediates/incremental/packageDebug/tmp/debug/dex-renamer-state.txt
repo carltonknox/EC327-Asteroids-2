@@ -1,0 +1,4 @@
+#Sun Nov 29 19:28:03 EST 2020
+base.0=C\:\\Users\\ckowk\\OneDrive\\Documents\\School\\EC327\\Project\\EC327-Asteroids-2\\asteroids_engine_test\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
