@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -25,6 +26,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private FireButton button;
 
     private ArrayList<Laser> lasers;
+
+    boolean collide = false;
+    Rect r = new Rect();
 
     Bitmap astr = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
     Bitmap astr2 = BitmapFactory.decodeResource(getResources(),R.drawable.asteroid_grey);
@@ -75,6 +79,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     }
 
+    public void newGame()
+    {
+        lasers.clear();
+        asterList.clear();
+
+        asterList = new ArrayList<Asteroid>();
+
+        //Generate random asteroids
+        for(int i = 0;i<3;i++){
+            asterList.add(generateRandomAsteroid());
+        }
+
+        lasers = new ArrayList<Laser>();
+
+        bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
+        shp2 = Bitmap.createScaledBitmap(shp,shp.getWidth()*2/3,shp.getHeight()*2/3,false);
+
+        ship = new SpaceShip(shp2);
+    }
+
     public Asteroid generateRandomAsteroid(){
         Random rand = new Random();
 
@@ -120,18 +144,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(stick.isPressed(event.getX(), event.getY()))
-                {
-                    stick.setIsPressed(true);
-                }
-                else if(button.isPressed(event.getX(), event.getY()))
-                {
+                if (!collide) {
+                    if(stick.isPressed(event.getX(), event.getY()))
+                    {
+                        stick.setIsPressed(true);
+                    }
+                    else if(button.isPressed(event.getX(), event.getY()))
+                    {
 
-                    button.setIsPressed(true);
+                        button.setIsPressed(true);
+                    }
+                }
+                else {
+                    newGame();
+                    collide = false;
                 }
                 return true;
             case MotionEvent.ACTION_MOVE:
-                if(stick.getIsPressed())
+                if(!collide && stick.getIsPressed())
                 {
                     stick.setPosition(event.getX(), event.getY());
                 }
@@ -176,5 +206,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         }
         stick.draw(canvas);
         button.draw(canvas);
+
+        if (collide){
+            Paint paint = new Paint();
+            paint.setTextSize(100);
+            paint.setColor(Color.MAGENTA);
+            drawCenterText(canvas, paint, "Game Over");
+        }
+    }
+    private void drawCenterText(Canvas canvas, Paint paint, String text) {
+        paint.setTextAlign(Paint.Align.LEFT);
+        canvas.getClipBounds(r);
+        int cHeight = r.height();
+        int cWidth = r.width();
+        paint.getTextBounds(text, 0, text.length(), r);
+        float x = cWidth / 2f - r.width() / 2f - r.left;
+        float y = cHeight / 2f + r.height() / 2f - r.bottom;
+        canvas.drawText(text, x, y, paint);
     }
 }
