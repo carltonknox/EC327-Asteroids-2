@@ -24,6 +24,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     protected SpaceShip ship;
     protected JoyStick stick;
     private FireButton button;
+    private long time;
 
     private ArrayList<Laser> lasers;
 
@@ -60,6 +61,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void initiate()
     {
+        time = System.currentTimeMillis();
+
         stick = new JoyStick(w/2-300,(h-200));
         button = new FireButton(w/2+300,h-200);
 
@@ -179,8 +182,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         ship.update(stick);
         button.update();
         stick.update();
-        if(button.getIsPressed()==true)
-            this.lasers.add(new Laser(ship.getX(),ship.getY(),ship.getA()));
+        if(button.getIsPressed()==true && (System.currentTimeMillis()-time)>500) {
+            this.lasers.add(new Laser(ship.getX(), ship.getY(), ship.getA()));
+            time = System.currentTimeMillis();
+        }
         for(int i = 0;i<asterList.size();i++) {
             this.asterList.get(i).update();
         }
