@@ -29,7 +29,6 @@ public class JoyStick implements GameObject{
     {
         canvas.drawCircle(bigX,bigY,br,bc);
         canvas.drawCircle(smallX,smallY,sr,sc);
-
     }
 
     public void update()
@@ -96,8 +95,6 @@ public class JoyStick implements GameObject{
     public void resetPosition() {
         pX=0;
         pY=0;
-        //angle=0;
-
     }
 
     public boolean getIsPressed()
@@ -113,9 +110,10 @@ public class JoyStick implements GameObject{
     public double getPositionY() {
         return pY;
     }
-
     public float getDegrees()
     {
         return angle;
     }
+
+
 }
