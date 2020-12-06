@@ -5,13 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,54 +43,43 @@ public class GamePanelActivity extends AppCompatActivity {
 
         FrameLayout fl = (FrameLayout)findViewById(R.id.frameLayout);
         fl.addView(new GamePanel(this));
+    }
 
-        Button gameoverBut = (Button)findViewById(R.id.button2);
+    public void gameOverState(int score) {
+        final Dialog gameoverDialog = new Dialog(this);
+        gameoverDialog.setContentView(R.layout.layout_gameover);
+        gameoverDialog.setCancelable(false);
+        gameoverDialog.show();
+        String scoreGet = "Score: " + String.valueOf(score);
 
-        gameoverBut.setOnClickListener(new View.OnClickListener() {
+        Button menuButton = (Button) gameoverDialog.findViewById(R.id.button);
+        final EditText nameBar = (EditText) gameoverDialog.findViewById(R.id.editTextTextPersonName);
+        final String scoreFinal = String.valueOf(score);
+        TextView scoreText = (TextView)gameoverDialog.findViewById(R.id.scoreView);
+        scoreText.setText(scoreGet);
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog gameoverDialog = new Dialog(GamePanelActivity.this);
-                gameoverDialog.setContentView(R.layout.layout_gameover);
-                gameoverDialog.setCancelable(false);
-                gameoverDialog.show();
+                String name = nameBar.getText().toString();
 
-                Button menuButton = (Button)gameoverDialog.findViewById(R.id.button);
-                final EditText nameBar = (EditText)gameoverDialog.findViewById(R.id.editTextTextPersonName);
-                final EditText scoreBar = (EditText)gameoverDialog.findViewById(R.id.editTextTextScore);
-                final String score;
+                File file = new File(GamePanelActivity.this.getFilesDir(), "cache");
+                if (!file.exists())
+                    file.mkdir();
 
-                menuButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String name = nameBar.getText().toString();
-                        String scoreTemp = scoreBar.getText().toString();
-                        String names[] = new String[5];
-                        String path = "@values/leaderboards.txt";
-                        int lines;
-                        int score;
-
-                        File file = new File(GamePanelActivity.this.getFilesDir(), "cache");
-                        if (!file.exists())
-                            file.mkdir();
-
-
-
-                        if(name.isEmpty())
-                            nameBar.setError("Please enter a name!");
-                        else if(name.length() > 10)
-                            nameBar.setError("Please enter a shorter name!");
-                        else{
-                            try {
-                                updateLeaderboards(name, scoreTemp);
-                            } catch (IOException e) {
-                                Toast.makeText(GamePanelActivity.this, "Leaderboards update failed!", Toast.LENGTH_SHORT).show();
-                                e.printStackTrace();
-                            }
-                        }
-
-                        finish();
+                if (name.isEmpty())
+                    nameBar.setError("Please enter a name!");
+                else if (name.length() > 10)
+                    nameBar.setError("Please enter a shorter name!");
+                else {
+                    try {
+                        updateLeaderboards(name, scoreFinal);
+                        gameoverDialog.dismiss();
+                    } catch (Exception e) {
+                        Toast.makeText(GamePanelActivity.this, "Leaderboards update failed!", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
-                });
+                }
             }
         });
     }
@@ -98,7 +93,6 @@ public class GamePanelActivity extends AppCompatActivity {
             File root = new File(Environment.getExternalStorageDirectory()+File.separator+"Asteroids");
             File gpxfile = new File(root, fileName);
 
-
             FileWriter writer = new FileWriter(gpxfile,true);
             writer.append(name + "\n" + score + "\n");
             writer.flush();
@@ -106,10 +100,8 @@ public class GamePanelActivity extends AppCompatActivity {
         }
         catch(IOException e)
         {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
+            e.printStackTrace();
         }
     }
-
 
 }

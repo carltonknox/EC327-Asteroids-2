@@ -110,7 +110,7 @@ public class Leaderboards extends AppCompatActivity {
             new File(file.toString()).delete();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Well, this is awkward...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sorry, the leaderboards couldn't be reset...", Toast.LENGTH_LONG).show();
         }
     }
 

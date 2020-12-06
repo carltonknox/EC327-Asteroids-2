@@ -120,4 +120,5 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(view.getContext(), Leaderboards.class);
         startActivity(intent);
     }
+
 }

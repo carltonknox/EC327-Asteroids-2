@@ -13,7 +13,7 @@ public class GamePanelMain extends SurfaceView implements SurfaceHolder.Callback
 
     public int w,h;
     //private Asteroid aster1,aster2;
-    private Asteroid[] asteroids;
+    private AsteroidMenu[] asteroids;
     private SpaceShip ship;
     private JoyStick stick;
     private int size;//size of array
@@ -53,10 +53,10 @@ public class GamePanelMain extends SurfaceView implements SurfaceHolder.Callback
         ship = new SpaceShip(shp);
 
         size = 3;
-        this.asteroids = new Asteroid[size];
-        asteroids[0] = new Asteroid(0,0,5,5,100,astr);
-        asteroids[1] = new Asteroid(0,0,-20,7,150,astr);
-        asteroids[2] = new Asteroid(0,0,16,-15,130,astr);
+        this.asteroids = new AsteroidMenu[size];
+        asteroids[0] = new AsteroidMenu(0,0,5,5,100,astr);
+        asteroids[1] = new AsteroidMenu(0,0,-20,7,150,astr);
+        asteroids[2] = new AsteroidMenu(0,0,16,-15,130,astr);
 
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
 
