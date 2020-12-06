@@ -2,7 +2,6 @@ package com.example.asteroids_engine_test;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 
