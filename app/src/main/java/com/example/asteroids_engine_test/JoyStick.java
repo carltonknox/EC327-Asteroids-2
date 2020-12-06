@@ -10,6 +10,7 @@ public class JoyStick implements GameObject{
     private Paint bc,sc;
     private boolean pressed;
     private double pX,pY;
+    private float angle;
 
     public JoyStick(int x, int y)
     {
@@ -22,7 +23,7 @@ public class JoyStick implements GameObject{
         bc = new Paint();
         bc.setColor(Color.GRAY);
         sc=new Paint();
-        sc.setColor(Color.RED);
+        sc.setColor(Color.BLUE);
     }
     public void draw(Canvas canvas)
     {
@@ -52,6 +53,29 @@ public class JoyStick implements GameObject{
         {
             pX=xd/distance;
             pY=yd/distance;
+        }
+        //Origin of the screen is top left corner made this math a lot harder
+
+        angle=(float)(Math.atan((pY/pX))*180/Math.PI);
+        if(pX<0&&pY>0)
+        {
+            //done do not change
+            angle+=270;
+        }
+        if(pX>0&&pY<0)
+        {
+            //done
+            angle+=90;
+        }
+        if(pX>0&&pY>0)
+        {
+            //done
+            angle+=90;
+        }
+        if(pX<0&&pY<0)
+        {
+            //done
+            angle+=270;
         }
 
 
@@ -86,4 +110,10 @@ public class JoyStick implements GameObject{
     public double getPositionY() {
         return pY;
     }
+    public float getDegrees()
+    {
+        return angle;
+    }
+
+
 }

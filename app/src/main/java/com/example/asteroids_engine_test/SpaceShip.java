@@ -3,9 +3,11 @@ package com.example.asteroids_engine_test;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 
-public class SpaceShip extends SpaceObject
+public class SpaceShip
 {
+    private double x,y;
     // to determine how fast we want the ship to move;
     private final int velocity = 30;
     //we want ship to start in middle.
@@ -17,7 +19,8 @@ public class SpaceShip extends SpaceObject
     private float degrees;//rotation degree
     private Matrix matrix = new Matrix();
 
-    public SpaceShip(Bitmap shipon,Bitmap shipoff) 
+
+    public SpaceShip(Bitmap shipon, Bitmap shipoff)
     {
            //scales my ships to an appropriate size;
        Bitmap example = Bitmap.createScaledBitmap(shipon,180,180,true);
@@ -65,6 +68,14 @@ public class SpaceShip extends SpaceObject
     public void setPosition(int x,int y) {
         this.x=x;
         this.y=y;
+    }
+    public int bind(double num,double bound)
+    {
+        if(num>bound)
+            return (int)(num-bound);
+        else if(num<0)
+            return (int)(num+bound);
+        else return (int)num;
     }
     public float getA()
     {

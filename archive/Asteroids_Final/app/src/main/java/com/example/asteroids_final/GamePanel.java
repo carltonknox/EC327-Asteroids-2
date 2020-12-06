@@ -188,7 +188,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             ship.update(stick);
             button.update();
             stick.update();
-            if (button.getIsPressed() && (System.currentTimeMillis() - time) > 500) {
+            if (button.getIsPressed() == true && (System.currentTimeMillis() - time) > 500) {
                 this.lasers.add(new Laser(ship.getX(), ship.getY(), ship.getA()));
                 time = System.currentTimeMillis();
             }

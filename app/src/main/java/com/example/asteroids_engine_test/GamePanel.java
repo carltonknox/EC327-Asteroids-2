@@ -19,7 +19,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private JoyStick stick;
     private int size;//size of array
     Bitmap astr = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
-    Bitmap shp = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_ship_red);
+    Bitmap shipon = BitmapFactory.decodeResource(getResources(),R.drawable.shipon);
+    Bitmap shipoff = BitmapFactory.decodeResource(getResources(),R.drawable.shippoff);
     Bitmap bg;
 
     public GamePanel(Context context)
@@ -51,7 +52,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         stick = new JoyStick(200,200);
 
-        ship = new SpaceShip(shp);
+        ship = new SpaceShip(shipon,shipoff);
 
         size = 3;
         this.asteroids = new Asteroid[size];
