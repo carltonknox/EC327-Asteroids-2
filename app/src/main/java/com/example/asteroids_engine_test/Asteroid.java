@@ -1,6 +1,7 @@
 package com.example.asteroids_engine_test;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 
 public class Asteroid extends SpaceObject {
