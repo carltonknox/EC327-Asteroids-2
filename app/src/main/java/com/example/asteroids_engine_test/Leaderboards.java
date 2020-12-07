@@ -1,11 +1,13 @@
 package com.example.asteroids_engine_test;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -27,14 +29,15 @@ import java.util.Collections;
 
 public class Leaderboards extends AppCompatActivity {
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboards);
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            File data = new File(Environment.getExternalStorageDirectory()+"/data.dat");
-            File parent = new File(Environment.getExternalStorageDirectory()+"/");
+            File data = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/data.dat");
+            File parent = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
 
             if (!data.exists()) {
                 try {
@@ -53,7 +56,7 @@ public class Leaderboards extends AppCompatActivity {
                     100);
         }
 
-        File path = new File(Environment.getExternalStorageDirectory()+File.separator+"Asteroids");
+        File path = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
         File file = new File(path,"data.dat");
         ArrayList<Person> list = new ArrayList<Person>();
         String scores[] = new String[256];
@@ -121,8 +124,9 @@ public class Leaderboards extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void resetLeaderboards(View view) {
-        File path = new File(Environment.getExternalStorageDirectory()+File.separator+"Asteroids");
+        File path = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
         File file = new File(path,"data.dat");
         Toast.makeText(this, "The leaderboards have been reset!", Toast.LENGTH_SHORT).show();
         if (!file.exists()) {

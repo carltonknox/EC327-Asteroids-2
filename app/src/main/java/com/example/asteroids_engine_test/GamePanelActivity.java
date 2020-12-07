@@ -1,10 +1,12 @@
 package com.example.asteroids_engine_test;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.hardware.SensorManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Window;
@@ -77,6 +79,7 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
         //The game over layout includes a field for getting a name
 
         menuButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
                 String name = nameBar.getText().toString();
@@ -101,10 +104,11 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void updateLeaderboards(String name, String score) throws IOException {
         String fileName = "data.dat";
         try {
-            File root = new File(Environment.getExternalStorageDirectory() + File.separator + "Asteroids");
+            File root = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS);
             File gpxfile = new File(root, fileName);
             //This gets the path to the file to be written to, namely, data.dat
 
