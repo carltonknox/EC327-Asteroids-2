@@ -217,7 +217,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             if(shoke)
             {
                 System.out.println("Shoken");
-                shoke=false;
+                move=0;
             }
             button.update();
             stick.update();
@@ -226,6 +226,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 asterList.clear();
                 shoke=false;
                 ready=false;
+                move=0;
             }
             if (button.getIsPressed() && (System.currentTimeMillis() - time) > 500) {
                 this.lasers.add(new Laser(ship.getX(), ship.getY(), ship.getA()));
