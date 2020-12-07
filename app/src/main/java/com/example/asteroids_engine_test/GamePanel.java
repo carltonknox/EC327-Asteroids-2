@@ -247,18 +247,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             }
             if(shoke)
             {
-                //System.out.println("Shoken");
-
+                if(ready)
+                {
+                    asterList.clear();
+                    shoke=false;
+                    ready=false;
+                    move=0;
+                }
+                shoke=false;
             }
             button.update();
             stick.update();
-            if(shoke&&ready)
-            {
-                asterList.clear();
-                shoke=false;
-                ready=false;
-                move=0;
-            }
+
             if (button.getIsPressed() && (System.currentTimeMillis() - time) > 300) {
                 this.lasers.add(new Laser(ship.getX(), ship.getY(), ship.getA()));
                 soundPool.play(pew_sound,1.0f,1.0f,1,0,1.0f);
