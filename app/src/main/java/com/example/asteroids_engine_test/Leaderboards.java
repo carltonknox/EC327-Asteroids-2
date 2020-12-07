@@ -15,25 +15,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.asteroids_engine_test.Person;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class Leaderboards extends AppCompatActivity {
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +40,10 @@ public class Leaderboards extends AppCompatActivity {
                 try {
                     data.createNewFile();
                     Toast.makeText(this, "Creating leaderboards file...", Toast.LENGTH_SHORT).show();
+                    //The leaderboards file is created at startup because it'll be written to later
                 } catch (IOException e) {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
-                    //Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -59,10 +52,14 @@ public class Leaderboards extends AppCompatActivity {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     100);
         }
+        //We need file write permissions to store the default name information, and the leaderboards
+        //Due to changes with Android 11, we can only really write to the Environment.DIRECTORY_DOCUMENTS folder
+        //Which is the Documents folder on the internal storage root directory
 
         File path = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
         File file = new File(path,"data.dat");
         ArrayList<Person> list = new ArrayList<Person>();
+        //To utilize a sorting algorithm, we used arraylists with the person class
         String scores[] = new String[256];
         String names[] = new String[256];
         TextView nameText[] = new TextView[5];
@@ -78,6 +75,7 @@ public class Leaderboards extends AppCompatActivity {
         scoreText[2] = (TextView)findViewById(R.id.score3);
         scoreText[3] = (TextView)findViewById(R.id.score4);
         scoreText[4] = (TextView)findViewById(R.id.score5);
+        //The text view arrays are used to sort the scores later
 
         StringBuilder text = new StringBuilder();
 
@@ -113,7 +111,6 @@ public class Leaderboards extends AppCompatActivity {
             pe[i].setScore(scores[i]);
             list.add(i, pe[i]);
         }
-        //Toast.makeText(this, "is the list empty? -> " + list.isEmpty(), Toast.LENGTH_SHORT).show();
         Collections.sort(list);
 
         for(int i=0;i<list.size();i++) {
@@ -122,14 +119,13 @@ public class Leaderboards extends AppCompatActivity {
                 scoreText[i].setText(list.get(i).score);
             }
             catch (Exception e) {
-                //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void resetLeaderboards(View view) {
+        //Function to delete the leader
         File path = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
         File file = new File(path,"data.dat");
         Toast.makeText(this, "The leaderboards have been reset!", Toast.LENGTH_SHORT).show();
@@ -166,7 +162,6 @@ public class Leaderboards extends AppCompatActivity {
 
 
     }
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void setDefaultName(String s) throws IOException {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             File data = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/asteroidsname.dat");

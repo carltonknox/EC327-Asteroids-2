@@ -58,7 +58,6 @@ public class MainActivity extends Activity {
 
         }
 
-        //Toast.makeText(this, Environment.DIRECTORY_DOCUMENTS, Toast.LENGTH_SHORT).show();
         ImageButton playBut = (ImageButton) findViewById(R.id.playbutton);
         ImageButton leadBut = (ImageButton)findViewById(R.id.leadbutton);
         TextView logo = (TextView)findViewById(R.id.mainText);
@@ -69,17 +68,8 @@ public class MainActivity extends Activity {
 
         FrameLayout fl = (FrameLayout)findViewById(R.id.frLayout);
         fl.addView(new GamePanelMain(this));
+        //This is here just to set the background to an older version of GamePanel
 
-        /*File root = new File(Environment.getExternalStorageDirectory()+File.separator+"Asteroids");
-        if (!root.exists()) {
-            try {
-                root.mkdirs();
-            } catch (Exception e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-
-            }
-        }*/
 
 
 
@@ -99,6 +89,7 @@ public class MainActivity extends Activity {
         butAnim1.start();
         butAnim2.start();
         titleAnim.start();
+        //Starts the little animation that's played before the GamePanelActivity is started
 
         new Handler().postDelayed(new Runnable() {
 
@@ -116,15 +107,18 @@ public class MainActivity extends Activity {
                 butAnim1.start();
                 butAnim2.start();
                 titleAnim.start();
+                //The buttons are animated back to their original places, so that they're there when the
+                //user exists GamePanelActivity
 
                 startActivity(i);
             }
-        }, 500 );
+        }, 500 );//Delays 0.5 seconds before starting the activity for no particular reason apart from aesthetics
     }
 
     public void animLead(View view) {
         Intent intent = new Intent(view.getContext(), Leaderboards.class);
         startActivity(intent);
+        //Just goes to the Leaderboards activity
     }
 
 }

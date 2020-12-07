@@ -43,6 +43,7 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
         ShakeDetector shakeDetector = new ShakeDetector(this);
 
         shakeDetector.start(sensorManager);
+        //Setting up the motion sensor for the super-attack
 
         FrameLayout fl = (FrameLayout)findViewById(R.id.frameLayout);
         Game= new GamePanel(this);
@@ -55,7 +56,6 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
         this.score = score;
 
     }
-
 
     public GamePanelActivity() {
         this.score = 0;
@@ -107,13 +107,15 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
                                 e.printStackTrace();
                             }
                         }
+                        //This is a direct copy of the file reading code from the Leaderboards activity
+                        //If the name text is left blank, this reads from the default name file
+                        //If it doesn't exists, it just leaves it as "Player 1"
                         else{
                             name = "Player 1";
                         }
                         updateLeaderboards(name, scoreFinal);
                         gameoverDialog.dismiss();
                     } catch(Exception e) {
-                        //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 else if (name.length() > 20)
@@ -122,6 +124,7 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
                     try {
                         updateLeaderboards(name, scoreFinal);
                         gameoverDialog.dismiss();
+                        //This is here in case the player manually enters a name
                     } catch (Exception e) {
                         Toast.makeText(context, "Leaderboards update failed!", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
@@ -133,6 +136,7 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void updateLeaderboards(String name, String score) {
+        //Function to update the leaderboards file
         String fileName = "data.dat";
         try {
             File root = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS);
