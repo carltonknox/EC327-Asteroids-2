@@ -20,6 +20,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public boolean shoke=false;
     private MainThread thread;
+    private GamePanelActivity gamePanelActivity;
     protected int w,h;
     protected ArrayList<Asteroid> asterList;
     protected SpaceShip ship;
@@ -32,7 +33,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private int jstickP=0;
     private int bttnP=1;
 
-    private float scaleSpeed;
+    private int scaleSpeed;
     private int kills;
     private int score;
     private int move;
@@ -167,6 +168,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             retry=false;
         }
     }
+    int counter = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
@@ -185,7 +187,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                         button.setIsPressed(true);
                     }
                 }
-                else {
+                else if (collide && (counter == 0)){
+                    counter++;
+                    gamePanelActivity = new GamePanelActivity(score);
+                    gamePanelActivity.gameOverState(getContext());
+                }
+                else if (collide && (counter!=0)){
+                    counter = 0;
                     newGame();
                     collide = false;
                 }
@@ -302,11 +310,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         stick.draw(canvas);
         button.draw(canvas);
 
-        if (collide){
+        if(collide && (counter == 0)){
             Paint paint = new Paint();
             paint.setTextSize(100);
             paint.setColor(Color.MAGENTA);
-            drawCenterText(canvas, paint, "Game Over");
+            drawCenterText(canvas, paint, "Game over! Press the screen");
+        }
+        else if(collide && (counter!=0)) {
+            Paint paint = new Paint();
+            paint.setTextSize(100);
+            paint.setColor(Color.MAGENTA);
+            drawCenterText(canvas, paint, "Press the screen for new game");
         }
     }
     private void drawCenterText(Canvas canvas, Paint paint, String text) {
