@@ -115,10 +115,44 @@ public class MainActivity extends Activity {
         }, 500 );//Delays 0.5 seconds before starting the activity for no particular reason apart from aesthetics
     }
 
-    public void animLead(View view) {
-        Intent intent = new Intent(view.getContext(), Leaderboards.class);
-        startActivity(intent);
-        //Just goes to the Leaderboards activity
+    public void animLead(final View view) {
+        final ImageButton playBut = (ImageButton) findViewById(R.id.playbutton);
+        final ImageButton leadBut = (ImageButton)findViewById(R.id.leadbutton);
+        final TextView logo = (TextView)findViewById(R.id.mainText);
+        ObjectAnimator butAnim1 = ObjectAnimator.ofFloat(playBut, "translationY", 7000f);
+        ObjectAnimator butAnim2 = ObjectAnimator.ofFloat(leadBut, "translationY", 7000f);
+        ObjectAnimator titleAnim = ObjectAnimator.ofFloat(logo, "translationY", -5000f);
+        butAnim1.setDuration(1000);
+        butAnim2.setDuration(1000);
+        titleAnim.setDuration(1000);
+
+        butAnim1.start();
+        butAnim2.start();
+        titleAnim.start();
+        //Starts the little animation that's played before the GamePanelActivity is started
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+
+                Intent i = new Intent(view.getContext(), Leaderboards.class);
+                ObjectAnimator butAnim1 = ObjectAnimator.ofFloat(playBut, "translationY", 0f);
+                ObjectAnimator butAnim2 = ObjectAnimator.ofFloat(leadBut, "translationY", 0f);
+                ObjectAnimator titleAnim = ObjectAnimator.ofFloat(logo, "translationY", 0f);
+                butAnim1.setDuration(1000);
+                butAnim2.setDuration(1000);
+                titleAnim.setDuration(1000);
+
+                butAnim1.start();
+                butAnim2.start();
+                titleAnim.start();
+                //The buttons are animated back to their original places, so that they're there when the
+                //user exists GamePanelActivity
+
+                startActivity(i);
+            }
+        }, 500 );//Delays 0.5 seconds before starting the activity for no particular reason apart from aesthetics
     }
 
 }
