@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 
         }
 
-        Toast.makeText(this, Environment.DIRECTORY_DOCUMENTS, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, Environment.DIRECTORY_DOCUMENTS, Toast.LENGTH_SHORT).show();
         ImageButton playBut = (ImageButton) findViewById(R.id.playbutton);
         ImageButton leadBut = (ImageButton)findViewById(R.id.leadbutton);
         TextView logo = (TextView)findViewById(R.id.mainText);
@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
 
                 startActivity(i);
             }
-        }, 500 );//time in milisecond
+        }, 500 );
     }
 
     public void animLead(View view) {

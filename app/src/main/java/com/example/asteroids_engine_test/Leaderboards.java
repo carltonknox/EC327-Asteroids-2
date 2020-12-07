@@ -109,7 +109,7 @@ public class Leaderboards extends AppCompatActivity {
             pe[i].setScore(scores[i]);
             list.add(i, pe[i]);
         }
-        Toast.makeText(this, "is the list empty? -> " + list.isEmpty(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "is the list empty? -> " + list.isEmpty(), Toast.LENGTH_SHORT).show();
         Collections.sort(list);
 
         for(int i=0;i<list.size();i++) {
