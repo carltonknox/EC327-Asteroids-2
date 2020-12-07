@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -50,6 +52,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     Bitmap shp2= BitmapFactory.decodeResource(getResources(),R.drawable.shippoff);
     Bitmap bg;
     boolean change_bg;
+
+    SoundPool soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC,0);
+    private int pew_sound = soundPool.load(getContext(),R.raw.pew,1);
 
     Random rand = new Random();
 
@@ -236,8 +241,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 ready=false;
                 move=0;
             }
-            if (button.getIsPressed() && (System.currentTimeMillis() - time) > 500) {
+            if (button.getIsPressed() && (System.currentTimeMillis() - time) > 300) {
                 this.lasers.add(new Laser(ship.getX(), ship.getY(), ship.getA()));
+                soundPool.play(pew_sound,1.0f,1.0f,1,0,1.0f);
                 time = System.currentTimeMillis();
             }
             for (int i = 0; i < asterList.size(); i++) {
