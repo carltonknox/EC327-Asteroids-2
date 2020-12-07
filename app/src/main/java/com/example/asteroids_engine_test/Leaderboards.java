@@ -1,7 +1,11 @@
 package com.example.asteroids_engine_test;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -27,6 +31,33 @@ public class Leaderboards extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboards);
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            File data = new File(Environment.getExternalStorageDirectory()+"/Asteroids/data.dat");
+            File parent = new File(Environment.getExternalStorageDirectory()+"/Asteroids/");
+            if (!parent.exists())
+                try {
+                    parent.mkdirs();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            if (!data.exists()) {
+                try {
+                    data.createNewFile();
+                    Toast.makeText(this, "Creating leaderboards file...", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                    //Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        else{
+            ActivityCompat.requestPermissions(Leaderboards.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    100);
+        }
 
         File path = new File(Environment.getExternalStorageDirectory()+File.separator+"Asteroids");
         File file = new File(path,"data.dat");
