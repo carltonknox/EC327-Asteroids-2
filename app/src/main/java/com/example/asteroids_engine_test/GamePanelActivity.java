@@ -30,6 +30,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.util.Random;
 
 public class GamePanelActivity extends AppCompatActivity {
 
@@ -45,7 +46,9 @@ public class GamePanelActivity extends AppCompatActivity {
         fl.addView(new GamePanel(this));
     }
 
-    public void gameOverState(int score) {
+    public void gameOverState(View view) {
+        Random rand = new Random();
+        int score = rand.nextInt(150);
         final Dialog gameoverDialog = new Dialog(this);
         gameoverDialog.setContentView(R.layout.layout_gameover);
         gameoverDialog.setCancelable(false);
