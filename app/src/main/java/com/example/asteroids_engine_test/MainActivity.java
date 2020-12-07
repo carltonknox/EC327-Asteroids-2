@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -25,6 +27,7 @@ import java.io.IOException;
 
 public class MainActivity extends Activity {
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         boolean hello = true;
@@ -33,9 +36,11 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        String path = Environment.DIRECTORY_DOCUMENTS;
+
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            File data = new File(Environment.getExternalStorageDirectory()+"/data.dat");
-            File parent = new File(Environment.getExternalStorageDirectory()+"/");
+            File data = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/data.dat");
+            File parent = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
 
             if (!data.exists()) {
                 try {
@@ -55,7 +60,7 @@ public class MainActivity extends Activity {
 
         }
 
-        Toast.makeText(this, String.valueOf(hello), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, Environment.DIRECTORY_DOCUMENTS, Toast.LENGTH_SHORT).show();
         ImageButton playBut = (ImageButton) findViewById(R.id.playbutton);
         ImageButton leadBut = (ImageButton)findViewById(R.id.leadbutton);
         TextView logo = (TextView)findViewById(R.id.mainText);
