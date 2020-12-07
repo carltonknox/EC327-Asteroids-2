@@ -217,7 +217,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             if(shoke)
             {
                 System.out.println("Shoken");
-                move=0;
+
             }
             button.update();
             stick.update();
