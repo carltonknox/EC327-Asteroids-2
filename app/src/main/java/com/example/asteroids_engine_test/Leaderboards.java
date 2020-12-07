@@ -33,15 +33,9 @@ public class Leaderboards extends AppCompatActivity {
         setContentView(R.layout.activity_leaderboards);
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            File data = new File(Environment.getExternalStorageDirectory()+"/Asteroids/data.dat");
-            File parent = new File(Environment.getExternalStorageDirectory()+"/Asteroids/");
-            if (!parent.exists())
-                try {
-                    parent.mkdirs();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            File data = new File(Environment.getExternalStorageDirectory()+"/data.dat");
+            File parent = new File(Environment.getExternalStorageDirectory()+"/");
+
             if (!data.exists()) {
                 try {
                     data.createNewFile();
@@ -122,6 +116,7 @@ public class Leaderboards extends AppCompatActivity {
             }
             catch (Exception e) {
                 //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         }
     }
