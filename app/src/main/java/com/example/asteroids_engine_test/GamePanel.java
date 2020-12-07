@@ -93,7 +93,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         move=0;
         time = System.currentTimeMillis();
 
-        stick = new JoyStick(w/2-300,(h-200));
+        stick = new JoyStick(w/4,7*h/8);
         button = new FireButton(w/2+300,h-200);
 
         asterList = new ArrayList<Asteroid>();
