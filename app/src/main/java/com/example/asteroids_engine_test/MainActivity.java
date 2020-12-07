@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        boolean hello = true;
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -37,17 +38,17 @@ public class MainActivity extends Activity {
             File parent = new File(Environment.getExternalStorageDirectory()+"/Asteroids/");
             if (!parent.exists())
                 try {
-                    parent.mkdirs();
+                    hello = parent.mkdir();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "IT FAILS HERE - checkSelfPermission", Toast.LENGTH_SHORT).show();
                 }
             if (!data.exists()) {
                 try {
                     data.createNewFile();
-                    Toast.makeText(this, "Creating leaderboards file...", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Creating leaderboards file...", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                     //Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -57,9 +58,10 @@ public class MainActivity extends Activity {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     100);
+
         }
 
-
+        Toast.makeText(this, String.valueOf(hello), Toast.LENGTH_SHORT).show();
         ImageButton playBut = (ImageButton) findViewById(R.id.playbutton);
         ImageButton leadBut = (ImageButton)findViewById(R.id.leadbutton);
         TextView logo = (TextView)findViewById(R.id.mainText);
