@@ -83,6 +83,6 @@ public class SpaceShip extends SpaceObject {
 // draw for special ability indicator
     public void drawSpecial(Canvas canvas)
     {
-        canvas.drawCircle(this.x,this.y,180,glow);
+        canvas.drawCircle(this.x,this.y,90,glow);
     }
 }
