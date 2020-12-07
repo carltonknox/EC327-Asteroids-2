@@ -31,6 +31,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private long time;
     private final int initialAsteroids = 3;
     private final int spawnRadius = 350;//radius to spawn asteroids
+    int chance;
     private int power=3;
 
     private int jstickP=0;
@@ -87,6 +88,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     //sets starting values
     public void initiate()
     {
+        chance = 100;
         power=3;
         change_bg = false;
         scaleSpeed=1;
@@ -115,6 +117,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     //resets game values
     public void newGame()
     {
+        chance = 100;
         power=3;
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
         change_bg = false;
@@ -303,9 +306,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 scaleSpeed+=0.2;
                 kills = 0;
             }
-            //has as 1/100 chance of generating an asteroid each loop
-            if (rand.nextInt(90) == 1 && asterList.size() < 6)
-                asterList.add(generateRandomAsteroid(ship.getX(),ship.getY()));
+            //has as 1/chance chance of generating an asteroid each loop
+            if (rand.nextInt(chance) == 1 && asterList.size() < 6) {
+                asterList.add(generateRandomAsteroid(ship.getX(), ship.getY()));
+                if(chance>5)
+                    chance--;
+            }
             //change background every 5 kills
             if(change_bg)
                 switch(score) {
