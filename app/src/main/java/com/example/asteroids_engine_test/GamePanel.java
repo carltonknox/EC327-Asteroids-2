@@ -27,11 +27,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private FireButton button;
     private long time;
     private final int initialAsteroids = 1;
+    private final int spawnRadius = 500;//radius to spawn asteroids
 
     private int jstickP=0;
     private int bttnP=1;
 
-    private int scaleSpeed;
+    private float scaleSpeed;
     private int kills;
     private int score;
     private int move;
@@ -47,6 +48,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     Bitmap shp = BitmapFactory.decodeResource(getResources(),R.drawable.shipon);
     Bitmap shp2= BitmapFactory.decodeResource(getResources(),R.drawable.shippoff);
     Bitmap bg;
+    boolean change_bg;
 
     Random rand = new Random();
 
@@ -74,6 +76,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void initiate()
     {
+        change_bg = false;
         scaleSpeed=1;
         kills = 0;
         score = 0;
@@ -100,9 +103,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
     public void newGame()
     {
+        bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
+        change_bg = false;
         kills=0;
         score=0;
         move=0;
+        scaleSpeed=1;
         time = System.currentTimeMillis();
         lasers.clear();
         asterList.clear();
@@ -119,9 +125,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public Asteroid generateRandomAsteroid(int shipX,int shipY){
-
-
-        int spawnRadius = 500;//radius to spawn asteroids
         int newX = 0;
         int newY = 0;
         while((abs(newX-shipX)<=spawnRadius)&&abs(newY-shipY)<=spawnRadius) {
@@ -133,8 +136,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         System.out.print("newX: ");
         System.out.println(newX);
 
-        int newDX = (rand.nextInt(41)-20)*scaleSpeed;
-        int newDY = (rand.nextInt(41)-20)*scaleSpeed;
+        int newDX = (int)((rand.nextInt(41)-20)*scaleSpeed);
+        int newDY = (int)((rand.nextInt(41)-20)*scaleSpeed);
+
+        if(newDX==0) newDX++;
+        if(newDY==0) newDY++;
         int newSize = rand.nextInt(71)+70;
         return new Asteroid(newX,newY,newDX,newDY,newSize,astr);
     }
@@ -243,13 +249,28 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                     }
                 }
             }
-            if (kills >= 10) {
-                scaleSpeed++;
+            if (kills >= 5) {
+                scaleSpeed+=0.2;
                 kills = 0;
             }
             //has as 1/100 chance of generating an asteroid each loop
-            if (rand.nextInt(100) == 1 && asterList.size() < 4)
+            if (rand.nextInt(100) == 1 && asterList.size() < 3)
                 asterList.add(generateRandomAsteroid(ship.getX(),ship.getY()));
+            if(change_bg)
+                switch(score) {
+                    case 5:
+                        bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_purple)),w,h,false);
+                        break;
+                    case 10:
+                        bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_blue)),w,h,false);
+                        break;
+                    case 15:
+                        bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_red)),w,h,false);
+                        break;
+                }
+            if(score%5==0)
+                change_bg = false;
+            else if(score%5==1) change_bg = true;
         }
     }
 
