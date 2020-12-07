@@ -55,11 +55,9 @@ public class Leaderboards extends AppCompatActivity {
             int satir = 0;
             int iter = 0;
 
-
             while ((line = bruh.readLine()) != null) {
                 text.append(line);
                 text.append('\n');
-
 
                 if(satir%2==0 && !line.isEmpty()) {
                     names[iter] = line;
@@ -69,11 +67,9 @@ public class Leaderboards extends AppCompatActivity {
                     iter++;
                 }
                 satir++;
-
             }
             bruh.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
@@ -85,7 +81,7 @@ public class Leaderboards extends AppCompatActivity {
             pe[i].setScore(scores[i]);
             list.add(i, pe[i]);
         }
-        Toast.makeText(this, "index 1 name -> " + list.isEmpty(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "is the list empty? -> " + list.isEmpty(), Toast.LENGTH_SHORT).show();
         Collections.sort(list);
 
         for(int i=0;i<list.size();i++) {

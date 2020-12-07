@@ -4,11 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.hardware.SensorManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,23 +18,15 @@ import android.widget.Toast;
 
 import com.squareup.seismic.ShakeDetector;
 
-import org.w3c.dom.Text;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.util.Random;
+
 
 public class GamePanelActivity extends AppCompatActivity implements ShakeDetector.Listener {
     GamePanel Game;
+    public int score;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,43 +43,57 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
         FrameLayout fl = (FrameLayout)findViewById(R.id.frameLayout);
         Game= new GamePanel(this);
         fl.addView(Game);
+        //GamePanel is not an Activity (since it already extends SurfaceView), so it cannot be started by an Intent
+        //Instead, we start GamePanelActivity, and then put the GamePanel inside a Frame Layout.
+
+    }
+    public GamePanelActivity(int score) {
+        this.score = score;
+
     }
 
 
-    public void gameOverState(View view) {
-        Random rand = new Random();
-        int score = rand.nextInt(150);
-        final Dialog gameoverDialog = new Dialog(this);
+    public GamePanelActivity() {
+        this.score = 0;
+    }
+    //Android activities don't require constructors to be written, but we need them so that
+    //they can be called from other classes
+
+
+    public void gameOverState(final Context context) {
+        final Dialog gameoverDialog = new Dialog(context);
         gameoverDialog.setContentView(R.layout.layout_gameover);
         gameoverDialog.setCancelable(false);
         gameoverDialog.show();
         String scoreGet = "Score: " + String.valueOf(score);
+        //This function is not used by GamePanelActivity, but rather when it is called from GamePanel itself
+        //It defines a dialog box, which uses the game over layout
 
         Button menuButton = (Button) gameoverDialog.findViewById(R.id.button);
         final EditText nameBar = (EditText) gameoverDialog.findViewById(R.id.editTextTextPersonName);
         final String scoreFinal = String.valueOf(score);
         TextView scoreText = (TextView)gameoverDialog.findViewById(R.id.scoreView);
         scoreText.setText(scoreGet);
+        //The game over layout includes a field for getting a name
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = nameBar.getText().toString();
-
-                File file = new File(GamePanelActivity.this.getFilesDir(), "cache");
+                File file = new File(context.getFilesDir(), "cache");
                 if (!file.exists())
                     file.mkdir();
 
                 if (name.isEmpty())
                     nameBar.setError("Please enter a name!");
-                else if (name.length() > 10)
+                else if (name.length() > 20)
                     nameBar.setError("Please enter a shorter name!");
                 else {
                     try {
                         updateLeaderboards(name, scoreFinal);
                         gameoverDialog.dismiss();
                     } catch (Exception e) {
-                        Toast.makeText(GamePanelActivity.this, "Leaderboards update failed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Leaderboards update failed!", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }
@@ -97,23 +101,21 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
         });
     }
 
-    public void updateLeaderboards(String name, String score) throws IOException{
+    public void updateLeaderboards(String name, String score) throws IOException {
         String fileName = "data.dat";
-
-
-        try
-        {
-            File root = new File(Environment.getExternalStorageDirectory()+File.separator+"Asteroids");
+        try {
+            File root = new File(Environment.getExternalStorageDirectory() + File.separator + "Asteroids");
             File gpxfile = new File(root, fileName);
+            //This gets the path to the file to be written to, namely, data.dat
 
-            FileWriter writer = new FileWriter(gpxfile,true);
+            FileWriter writer = new FileWriter(gpxfile, true);
             writer.append(name + "\n" + score + "\n");
+            //This line ensures that names are written on even lines, whereas scores are written to odd lines
+            //This is so that the data.dat file can be parsed by the Leaderboards activity later
             writer.flush();
             writer.close();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace(); //Because file operations can go wrong :(
         }
     }
 
