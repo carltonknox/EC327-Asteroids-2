@@ -13,21 +13,22 @@ public class SpaceShip extends SpaceObject {
     //we want ship to start in middle.
     private final static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    //Both states of the ship
     private Bitmap ship1;
     private Bitmap ship2;
     private Bitmap finalShip;
     private float degrees;//rotation degree
     private Matrix matrix = new Matrix();
     private Circle hitBox = new Circle();
-    private Paint glow;
-
+    private Paint glow;// For the special Ability
+    //to overload super class not used
     public SpaceShip(Bitmap ship) {
         super(screenWidth / 2, screenHeight / 2, 0, 0);
         this.img = ship;
         ship1=ship;
         ship2=ship;
     }
-
+    // constructor so we can have two states
     public SpaceShip(Bitmap shipon, Bitmap shipoff) {
         super(screenWidth / 2, screenHeight / 2, 0, 0);
         //scales my ships to an appropriate size;
@@ -39,7 +40,7 @@ public class SpaceShip extends SpaceObject {
         glow.setColor(Color.YELLOW);
         glow.setAlpha(50);
     }
-
+// this class updates using joystick input
     public void update(JoyStick j) {
         this.dx = (int) (velocity * j.getPositionX());
         this.dy = (int) (velocity * j.getPositionY());
@@ -54,15 +55,16 @@ public class SpaceShip extends SpaceObject {
             {
             this.img = Bitmap.createBitmap(ship1, 0, 0, ship1.getWidth(), ship1.getHeight(), matrix, true);
         }
-
+        // hitbox for collision detection
         hitBox.set(this.getXY(), 45, Color.MAGENTA);
     }
 
+    //setter function
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
+// acceesor function
     public int getX() {
         return (int) x;
     }
@@ -78,7 +80,7 @@ public class SpaceShip extends SpaceObject {
     public Circle getHitBox(){
         return hitBox;
     }
-
+// draw for special ability indicator
     public void drawSpecial(Canvas canvas)
     {
         canvas.drawCircle(this.x,this.y,180,glow);
