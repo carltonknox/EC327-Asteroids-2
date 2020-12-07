@@ -3,7 +3,7 @@ package com.example.asteroids_engine_test;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-
+// this is our projectile
 public class Laser extends SpaceObject
 {
     //private int x,y;
@@ -12,7 +12,7 @@ public class Laser extends SpaceObject
     private int r=15;
     private float angle;
     Paint c;
-
+// parameter for laser start place and angle
     Laser(int x, int y, float angle)
     {
         super(x,y,0,0);
@@ -36,6 +36,7 @@ public class Laser extends SpaceObject
     @Override
     public void update()
     {
+        // dreaded angle math to determine what way it moves.
         if(angle <=90)
         {
             x+=vX;
@@ -58,6 +59,7 @@ public class Laser extends SpaceObject
         }
     }
 
+    //to determine if it should be destroyed
     public boolean isInBounds()
     {
         if(x>xMax||x<0||y>yMax||y<0)
