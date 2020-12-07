@@ -55,7 +55,7 @@ public class SpaceShip extends SpaceObject {
             this.img = Bitmap.createBitmap(ship1, 0, 0, ship1.getWidth(), ship1.getHeight(), matrix, true);
         }
 
-        hitBox.set(this.getXY(), ship1.getHeight()/2, Color.MAGENTA);
+        hitBox.set(this.getXY(), 45, Color.MAGENTA);
     }
 
     public void setPosition(int x, int y) {

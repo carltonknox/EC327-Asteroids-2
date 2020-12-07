@@ -324,7 +324,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void draw(Canvas canvas) {
         super.draw(canvas);
         canvas.drawBitmap(bg,0,0,null);//paint background
-
         ship.draw(canvas);
         if(ready)
         {
