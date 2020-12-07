@@ -3,7 +3,8 @@ package com.example.asteroids_engine_test;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-
+//not using a as a physical button anymore as multitouch controls didn't seem to work so using as
+//more of a relay switch for the whole screen
 public class FireButton
 {
     private int x,y,r;
