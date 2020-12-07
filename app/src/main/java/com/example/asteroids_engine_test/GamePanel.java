@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.pow;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
@@ -54,6 +55,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     Bitmap shp2= BitmapFactory.decodeResource(getResources(),R.drawable.shippoff);
     Bitmap bg;
     boolean change_bg;
+    int barprog;
+    Rect leftEnd;
+    Rect rightEnd;
+    Paint progP;
+    Paint ends;
 
     SoundPool soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC,0);
     private int pew_sound = soundPool.load(getContext(),R.raw.pew,1);
@@ -114,6 +120,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         ship = new SpaceShip(shp,shp2);
 
+        leftEnd = new Rect(w/16,0,w/8,h/32);
+        rightEnd = new Rect(w*7/8,0,w*15/16,h/32);
+        progP = new Paint();
+        progP.setColor(Color.YELLOW);
+        progP.setAlpha(50);
+        ends = new Paint();
+        ends.setColor(Color.GRAY);
+
     }
     //resets game values
     public void newGame()
@@ -135,6 +149,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         for(int i = 0;i<initialAsteroids;i++){
             asterList.add(generateRandomAsteroid(w/2,h/2));
         }
+
     }
 
     //Generates an asteroid with a random size, location, and speed
@@ -247,7 +262,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void update() {
         if  (!collide) {//if there is collision, pause game
             ship.update(stick);
-            if (move>power)
+            if (move>=power)
             {
                 move=0;
                 ready=true;
@@ -352,6 +367,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             lasers.get(i).draw(canvas);
         }
         stick.draw(canvas);
+
+        //Progress bar for special move
+        if(ready) barprog = w*7/8;
+        else
+            barprog = (w*3/4)*move/power+w/8;
+        Rect bar = new Rect(w/8,0,barprog,h/32);
+        canvas.drawRect(leftEnd,ends);
+        canvas.drawRect(rightEnd,ends);
+        canvas.drawRect(bar,progP);
+
         //game over sequence
         if(collide && (counter == 0)){
             Paint paint = new Paint();
