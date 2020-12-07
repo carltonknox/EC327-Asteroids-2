@@ -247,7 +247,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             }
             if(shoke)
             {
-                System.out.println("Shoken");
+                //System.out.println("Shoken");
 
             }
             button.update();
@@ -334,17 +334,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             lasers.get(i).draw(canvas);
         }
         stick.draw(canvas);
-        button.draw(canvas);
+        //button.draw(canvas);
 
         if(collide && (counter == 0)){
             Paint paint = new Paint();
-            paint.setTextSize(50);
+            paint.setTextSize(70);
             paint.setColor(Color.WHITE);
             drawCenterText(canvas, paint, "Game over! Press the screen");
         }
         else if(collide && (counter!=0)) {
             Paint paint = new Paint();
-            paint.setTextSize(50);
+            paint.setTextSize(70);
             paint.setColor(Color.WHITE);
             drawCenterText(canvas, paint, "Press the screen for new game");
         }
