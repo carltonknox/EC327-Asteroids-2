@@ -109,6 +109,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
 
+
         ship = new SpaceShip(shp,shp2);
 
     }

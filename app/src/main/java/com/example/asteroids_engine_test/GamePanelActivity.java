@@ -21,7 +21,9 @@ import android.widget.Toast;
 import com.squareup.seismic.ShakeDetector;
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -83,12 +85,37 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
             @Override
             public void onClick(View view) {
                 String name = nameBar.getText().toString();
-                File file = new File(context.getFilesDir(), "cache");
-                if (!file.exists())
-                    file.mkdir();
 
                 if (name.isEmpty())
-                    nameBar.setError("Please enter a name!");
+                    try {
+                        StringBuilder text = new StringBuilder();
+                        File path = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
+                        File file = new File(path,"asteroidsname.dat");
+
+                        if(file.exists()) {
+                            try {
+                                BufferedReader bruh = new BufferedReader(new FileReader(file));
+                                String line;
+
+                                while ((line = bruh.readLine()) != null) {
+                                    text.append(line);
+                                    name = line;
+                                }
+                                bruh.close();
+                            } catch (IOException e) {
+                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        }
+                        else{
+                            name = "Player 1";
+                        }
+                        updateLeaderboards(name, scoreFinal);
+                        gameoverDialog.dismiss();
+                    } catch(Exception e) {
+                        //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
                 else if (name.length() > 20)
                     nameBar.setError("Please enter a shorter name!");
                 else {
@@ -105,7 +132,7 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void updateLeaderboards(String name, String score) throws IOException {
+    public void updateLeaderboards(String name, String score) {
         String fileName = "data.dat";
         try {
             File root = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS);
@@ -115,13 +142,15 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
             FileWriter writer = new FileWriter(gpxfile, true);
             writer.append(name + "\n" + score + "\n");
             //This line ensures that names are written on even lines, whereas scores are written to odd lines
-            //This is so that the data.dat file can be parsed by the Leaderboards activity later
+            //This is ensures that the data.dat file can be parsed by the Leaderboards activity later
             writer.flush();
             writer.close();
         } catch (IOException e) {
             e.printStackTrace(); //Because file operations can go wrong :(
         }
     }
+
+
 
     @Override
     public void hearShake()
