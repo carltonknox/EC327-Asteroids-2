@@ -21,14 +21,17 @@ public abstract class SpaceObject implements GameObject {
     {
         this.x=x;
         this.y=y;
+        //velocity of SpaceObject
         this.dx=dx;
         this.dy=dy;
 
+        //the bounds of the screen, which are used for screen wrapping
         this.xMax = Resources.getSystem().getDisplayMetrics().widthPixels;
         this.yMax = Resources.getSystem().getDisplayMetrics().heightPixels;
     }
     public void update()
     {
+        //Update location of SpaceObject by adding velocity
         this.x = bind((this.x+this.dx),xMax);
         this.y = bind((this.y+this.dy),yMax);
     }
@@ -39,6 +42,9 @@ public abstract class SpaceObject implements GameObject {
     }
     public int bind(int num,int bound)
     {
+        //binds a number within a bound, eg:
+        //num:-5, bound:10 ->return 5
+        //num:18, bound:10 ->return 8
         if(num>bound)
             return num-bound;
         else if(num<0)
@@ -53,7 +59,7 @@ public abstract class SpaceObject implements GameObject {
         int imgy = y-h/2;
 
         //draws object at 9 locations depending on screen dimensions
-        //Could be optimized later
+        //compatible with screen-wrapping
         canvas.drawBitmap(img,imgx,imgy,null);
 
         if(y<(h/2))
