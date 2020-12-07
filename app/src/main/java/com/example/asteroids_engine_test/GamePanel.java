@@ -26,6 +26,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private FireButton button;
     private long time;
     private final int initialAsteroids = 1;
+    private final int spawnRadius = 500;//radius to spawn asteroids
 
     private int jstickP=0;
     private int bttnP=1;
@@ -120,9 +121,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public Asteroid generateRandomAsteroid(int shipX,int shipY){
-
-
-        int spawnRadius = 500;//radius to spawn asteroids
         int newX = 0;
         int newY = 0;
         while((abs(newX-shipX)<=spawnRadius)&&abs(newY-shipY)<=spawnRadius) {
@@ -244,7 +242,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 kills = 0;
             }
             //has as 1/100 chance of generating an asteroid each loop
-            if (rand.nextInt(100) == 1 && asterList.size() < 4)
+            if (rand.nextInt(100) == 1 && asterList.size() < 3)
                 asterList.add(generateRandomAsteroid(ship.getX(),ship.getY()));
             if(change_bg)
                 switch(score) {
