@@ -34,8 +34,14 @@ public class MainActivity extends Activity {
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             File data = new File(Environment.getExternalStorageDirectory()+"/Asteroids/data.dat");
-            if (!data.getParentFile().exists())
-                data.getParentFile().mkdirs();
+            File parent = new File(Environment.getExternalStorageDirectory()+"/Asteroids/");
+            if (!parent.exists())
+                try {
+                    parent.mkdirs();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             if (!data.exists()) {
                 try {
                     data.createNewFile();
@@ -43,6 +49,7 @@ public class MainActivity extends Activity {
                 } catch (IOException e) {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                    //Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }

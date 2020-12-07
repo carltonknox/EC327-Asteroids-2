@@ -37,12 +37,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private ArrayList<Laser> lasers;
 
     boolean collide = false;
+    boolean ready=false;
     Rect r = new Rect();
 
     Bitmap astr = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_asteroid);
     Bitmap astr2 = BitmapFactory.decodeResource(getResources(),R.drawable.asteroid_grey);
-    Bitmap shp = BitmapFactory.decodeResource(getResources(),R.drawable.pixel_ship_red);
-    Bitmap shp2;
+    Bitmap shp = BitmapFactory.decodeResource(getResources(),R.drawable.shipon);
+    Bitmap shp2= BitmapFactory.decodeResource(getResources(),R.drawable.shippoff);
     Bitmap bg;
     boolean change_bg;
 
@@ -93,7 +94,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
         shp2 = Bitmap.createScaledBitmap(shp,shp.getWidth()*2/3,shp.getHeight()*2/3,false);
 
-        ship = new SpaceShip(shp2);
+        ship = new SpaceShip(shp,shp2);
 
     }
     public void newGame()
@@ -106,7 +107,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         time = System.currentTimeMillis();
         lasers.clear();
         asterList.clear();
-        ship = new SpaceShip(shp2);
+        ship = new SpaceShip(shp,shp2);
+        ready=false;
 
         //asterList = new ArrayList<Asteroid>();
 
@@ -204,6 +206,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void update() {
         if  (!collide) {
             ship.update(stick);
+            if (kills>3)
+            {
+                ready=true;
+            }
             button.update();
             stick.update();
             if (button.getIsPressed() && (System.currentTimeMillis() - time) > 500) {
@@ -264,6 +270,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         canvas.drawBitmap(bg,0,0,null);//paint background
 
         ship.draw(canvas);
+        if(ready)
+        {
+            ship.drawSpecial(canvas);
+        }
         //ship.getHitBox().draw(canvas);
 
         for(int i = 0;i<asterList.size();i++) {

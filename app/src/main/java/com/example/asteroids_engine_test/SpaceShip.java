@@ -2,8 +2,10 @@ package com.example.asteroids_engine_test;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 
 public class SpaceShip extends SpaceObject {
     // to determine how fast we want the ship to move;
@@ -17,6 +19,7 @@ public class SpaceShip extends SpaceObject {
     private float degrees;//rotation degree
     private Matrix matrix = new Matrix();
     private Circle hitBox = new Circle();
+    private Paint glow;
 
     public SpaceShip(Bitmap ship) {
         super(screenWidth / 2, screenHeight / 2, 0, 0);
@@ -32,6 +35,9 @@ public class SpaceShip extends SpaceObject {
         Bitmap example2 = Bitmap.createScaledBitmap(shipoff, 180, 180, true);
         this.ship1 = example;
         this.ship2 = example2;
+        glow = new Paint();
+        glow.setColor(Color.YELLOW);
+        glow.setAlpha(50);
     }
 
     public void update(JoyStick j) {
@@ -70,5 +76,10 @@ public class SpaceShip extends SpaceObject {
 
     public Circle getHitBox(){
         return hitBox;
+    }
+
+    public void drawSpecial(Canvas canvas)
+    {
+        canvas.drawCircle(this.x,this.y,180,glow);
     }
 }
