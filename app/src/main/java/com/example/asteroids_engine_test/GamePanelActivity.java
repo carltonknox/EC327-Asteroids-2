@@ -67,7 +67,7 @@ public class GamePanelActivity extends AppCompatActivity implements ShakeDetecto
     public void gameOverState(final Context context) {
         final Dialog gameoverDialog = new Dialog(context);
         gameoverDialog.setContentView(R.layout.layout_gameover);
-        gameoverDialog.setCancelable(false);
+        gameoverDialog.setCancelable(true);
         gameoverDialog.show();
         String scoreGet = "Score: " + String.valueOf(score);
         //This function is not used by GamePanelActivity, but rather when it is called from GamePanel itself
