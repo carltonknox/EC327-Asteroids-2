@@ -21,15 +21,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <ImageButton
         android:id="@+id/playbutton"
-        android:layout_width="137dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="137dp"
-        android:layout_marginLeft="137dp"
-        android:layout_marginTop="114dp"
-        android:layout_marginEnd="137dp"
-        android:layout_marginRight="137dp"
+        android:layout_width="181dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginRight="115dp"
         android:background="@null"
         android:onClick="animPlay"
         android:scaleType="fitXY"
@@ -38,27 +39,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainText" />
 
-
     <ImageButton
         android:id="@+id/leadbutton"
-        android:layout_width="137dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="137dp"
-        android:layout_marginLeft="137dp"
-        android:layout_marginTop="57dp"
-        android:layout_marginEnd="137dp"
-        android:layout_marginRight="137dp"
+        android:layout_width="181dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginRight="115dp"
         android:background="@null"
         android:onClick="animLead"
         android:scaleType="fitXY"
-        android:src="@drawable/trophy"
+        android:src="@drawable/trophy1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playbutton" />
 
     <FrameLayout
         android:id="@+id/frLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
