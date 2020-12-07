@@ -31,6 +31,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private long time;
     private final int initialAsteroids = 3;
     private final int spawnRadius = 350;//radius to spawn asteroids
+    private int power=3;
 
     private int jstickP=0;
     private int bttnP=1;
@@ -241,7 +242,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void update() {
         if  (!collide) {
             ship.update(stick);
-            if (move>3)
+            if (move>power)
             {
                 move=0;
                 ready=true;
@@ -256,6 +257,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                     shoke=false;
                     ready=false;
                     move=0;
+                    power*=2;
                 }
                 shoke=false;
             }
