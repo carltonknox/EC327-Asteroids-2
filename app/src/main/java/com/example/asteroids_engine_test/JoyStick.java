@@ -18,8 +18,8 @@ public class JoyStick implements GameObject{
         bigY=y;
         smallX=x;
         smallY=y;
-        br=75;
-        sr=45;
+        br=90;
+        sr=60;
         bc = new Paint();
         bc.setColor(Color.GRAY);
         sc=new Paint();
