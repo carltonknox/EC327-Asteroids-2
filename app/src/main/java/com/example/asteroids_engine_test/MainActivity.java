@@ -34,15 +34,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            File data = new File(Environment.getExternalStorageDirectory()+"/Asteroids/data.dat");
-            File parent = new File(Environment.getExternalStorageDirectory()+"/Asteroids/");
-            if (!parent.exists())
-                try {
-                    hello = parent.mkdir();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "IT FAILS HERE - checkSelfPermission", Toast.LENGTH_SHORT).show();
-                }
+            File data = new File(Environment.getExternalStorageDirectory()+"/data.dat");
+            File parent = new File(Environment.getExternalStorageDirectory()+"/");
+
             if (!data.exists()) {
                 try {
                     data.createNewFile();
