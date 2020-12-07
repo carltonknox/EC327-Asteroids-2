@@ -57,6 +57,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private int pew_sound = soundPool.load(getContext(),R.raw.pew,1);
     private int hit_sound = soundPool.load(getContext(),R.raw.hit_02,1);
     private int boom_sound = soundPool.load(getContext(),R.raw.boom,1);
+    private int cheat_sound = soundPool.load(getContext(),R.raw.bass,1);
 
     Random rand = new Random();
 
@@ -254,6 +255,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             stick.update();
             if(shoke&&ready)
             {
+                soundPool.play(cheat_sound,1.0f,1.0f,1,0,1.0f);
                 asterList.clear();
                 shoke=false;
                 ready=false;
