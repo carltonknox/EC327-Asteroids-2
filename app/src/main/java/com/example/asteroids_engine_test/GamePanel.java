@@ -76,6 +76,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
+        //gets width and height of screen
         this.w=width;
         this.h=height;
         System.out.print(w);
@@ -83,9 +84,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         System.out.println(h);
     }
 
-
+    //sets starting values
     public void initiate()
     {
+        power=3;
         change_bg = false;
         scaleSpeed=1;
         kills = 0;
@@ -113,6 +115,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
     public void newGame()
     {
+        power=3;
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
         change_bg = false;
         kills=0;
