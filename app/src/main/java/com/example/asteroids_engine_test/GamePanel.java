@@ -323,14 +323,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         if(collide && (counter == 0)){
             Paint paint = new Paint();
-            paint.setTextSize(100);
-            paint.setColor(Color.MAGENTA);
+            paint.setTextSize(50);
+            paint.setColor(Color.WHITE);
             drawCenterText(canvas, paint, "Game over! Press the screen");
         }
         else if(collide && (counter!=0)) {
             Paint paint = new Paint();
-            paint.setTextSize(100);
-            paint.setColor(Color.MAGENTA);
+            paint.setTextSize(50);
+            paint.setColor(Color.WHITE);
             drawCenterText(canvas, paint, "Press the screen for new game");
         }
     }
