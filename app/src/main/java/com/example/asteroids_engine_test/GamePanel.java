@@ -30,6 +30,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private FireButton button;
     private long time;
     private final int initialAsteroids = 1;
+    //
     private final int spawnRadius = 500;//radius to spawn asteroids
 
     private int jstickP=0;
