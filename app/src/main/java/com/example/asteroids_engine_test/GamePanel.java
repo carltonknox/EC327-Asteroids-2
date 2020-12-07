@@ -29,7 +29,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     protected JoyStick stick;
     private FireButton button;
     private long time;
-    private final int initialAsteroids = 1;
+    private final int initialAsteroids = 6;
     private final int spawnRadius = 500;//radius to spawn asteroids
 
     private int jstickP=0;
@@ -55,6 +55,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     SoundPool soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC,0);
     private int pew_sound = soundPool.load(getContext(),R.raw.pew,1);
+    private int hit_sound = soundPool.load(getContext(),R.raw.hit_02,1);
+    private int boom_sound = soundPool.load(getContext(),R.raw.boom,1);
 
     Random rand = new Random();
 
@@ -141,6 +143,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         System.out.println(shipX);
         System.out.print("newX: ");
         System.out.println(newX);
+        System.out.print("X: ");
 
         int newDX = (int)((rand.nextInt(41)-20)*scaleSpeed);
         int newDY = (int)((rand.nextInt(41)-20)*scaleSpeed);
@@ -250,6 +253,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 this.asterList.get(i).update();
                 this.asterList.get(i).updateHitBox();
                 if (asterList.get(i).collision(ship)) {
+                    soundPool.play(boom_sound,1.0f,1.0f,1,0,1.0f);
                     collide = true;
                     break;
                 }
@@ -264,6 +268,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                     if (asterList.get(i).collision(lasers.get(j))) {
                         lasers.remove(j--);
                         asterList.remove(i--);
+                        soundPool.play(hit_sound,1.0f,1.0f,1,0,1.0f);
                         kills++;
                         score++;
                         move++;

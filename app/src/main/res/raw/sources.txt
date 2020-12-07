@@ -1,1 +1,3 @@
 pew.wav - https://freesound.org/people/LittleRobotSoundFactory/sounds/270336/
+hit_01.wav - https://freesound.org/people/LittleRobotSoundFactory/sounds/270325/
+boom - https://freesound.org/people/bareform/sounds/218721/
