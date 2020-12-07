@@ -11,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.asteroids_engine_test.Person;
@@ -21,12 +23,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class Leaderboards extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -137,6 +141,76 @@ public class Leaderboards extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Sorry, the leaderboards couldn't be reset...", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void updateName(View view) {
+        final EditText nameText = (EditText)findViewById(R.id.editTextName);
+        final Button submit = (Button)findViewById(R.id.buttonSubmit);
+
+
+        String defName = nameText.getText().toString();
+        if(defName.isEmpty()) {
+            nameText.setError("Please enter a default name!");
+        }
+        else if (defName.length() > 20)
+            nameText.setError("Please enter a shorter name!");
+        else {
+            try {
+                setDefaultName(defName);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(Leaderboards.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void setDefaultName(String s) throws IOException {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            File data = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/asteroidsname.dat");
+            File parent = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
+
+
+            if (data.exists()) {
+                try {
+                    File path = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
+                    File file = new File(path,"asteroidsname.dat");
+                    new File(file.toString()).delete();
+                    Toast.makeText(this, "New default name set!", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Error occured setting default name", Toast.LENGTH_SHORT).show();
+                }
+            }
+            try {
+                data.createNewFile();
+            } catch (Exception e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            ActivityCompat.requestPermissions(Leaderboards.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    100);
+
+        }
+        String fileName = "asteroidsname.dat";
+        try {
+            File root = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS);
+            File gpxfile = new File(root, fileName);
+            //This gets the path to the file to be written to, namely, data.dat
+
+            FileWriter writer = new FileWriter(gpxfile, true);
+            writer.append(s);
+            //This line ensures that names are written on even lines, whereas scores are written to odd lines
+            //This is ensures that the data.dat file can be parsed by the Leaderboards activity later
+            writer.flush();
+            writer.close();
+            Toast.makeText(this, "Default name set!", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace(); //Because file operations can go wrong :(
         }
     }
 
