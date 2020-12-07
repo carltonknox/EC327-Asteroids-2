@@ -251,7 +251,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 if(ready)
                 {
                     soundPool.play(cheat_sound,1.0f,1.0f,1,0,1.0f);
-
+//to add a commit
                     asterList.clear();
                     shoke=false;
                     ready=false;
