@@ -18,6 +18,7 @@ import static java.lang.Math.abs;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
+    public boolean shoke=false;
     private MainThread thread;
     protected int w,h;
     protected ArrayList<Asteroid> asterList;
@@ -33,6 +34,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private int scaleSpeed;
     private int kills;
     private int score;
+    private int move;
 
     private ArrayList<Laser> lasers;
 
@@ -75,6 +77,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         scaleSpeed=1;
         kills = 0;
         score = 0;
+        move=0;
         time = System.currentTimeMillis();
 
         stick = new JoyStick(w/2-300,(h-200));
@@ -99,6 +102,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     {
         kills=0;
         score=0;
+        move=0;
         time = System.currentTimeMillis();
         lasers.clear();
         asterList.clear();
@@ -161,8 +165,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        switch(event.getAction()) {
+        switch(event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
                 if (!collide) {
                     if(stick.isPressed(event.getX(), event.getY()))
                     {
@@ -198,9 +203,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void update() {
         if  (!collide) {
             ship.update(stick);
-            if (kills>3)
+            if (move>3)
             {
+                move=0;
                 ready=true;
+            }
+            if(shoke)
+            {
+                System.out.println("Shoken");
+                shoke=false;
             }
             button.update();
             stick.update();
@@ -228,6 +239,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                         asterList.remove(i--);
                         kills++;
                         score++;
+                        move++;
                     }
                 }
             }

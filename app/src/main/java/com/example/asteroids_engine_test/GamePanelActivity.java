@@ -3,6 +3,7 @@ package com.example.asteroids_engine_test;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -16,6 +17,8 @@ import android.widget.FrameLayout;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.seismic.ShakeDetector;
 
 import org.w3c.dom.Text;
 
@@ -32,8 +35,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.Random;
 
-public class GamePanelActivity extends AppCompatActivity {
-
+public class GamePanelActivity extends AppCompatActivity implements ShakeDetector.Listener {
+    GamePanel Game;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +44,17 @@ public class GamePanelActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_game_panel);
 
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        ShakeDetector shakeDetector = new ShakeDetector(this);
+
+        shakeDetector.start(sensorManager);
 
         FrameLayout fl = (FrameLayout)findViewById(R.id.frameLayout);
-        fl.addView(new GamePanel(this));
+        Game= new GamePanel(this);
+        fl.addView(Game);
     }
+
 
     public void gameOverState(View view) {
         Random rand = new Random();
@@ -107,4 +117,10 @@ public class GamePanelActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void hearShake()
+    {
+        Game.shoke=true;
+
+    }
 }
