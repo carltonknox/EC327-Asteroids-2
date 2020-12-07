@@ -180,7 +180,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         }
     }
     int counter = 0;
-
+    // to register touch events for the game and make them run simultanously;
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -248,8 +248,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 move=0;
                 ready=true;
             }
+            //checks if phone  was shaken
             if(shoke)
             {
+                //checks if special ability is ready
                 if(ready)
                 {
                     soundPool.play(cheat_sound,1.0f,1.0f,1,0,1.0f);
@@ -258,6 +260,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                     ready=false;
                     move=0;
                     power*=2;
+                    //makes the special abilty harder to get to not make it to op;
                 }
                 shoke=false;
             }
@@ -342,7 +345,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             lasers.get(i).draw(canvas);
         }
         stick.draw(canvas);
-
+        //game over sequence
         if(collide && (counter == 0)){
             Paint paint = new Paint();
             paint.setTextSize(70);
@@ -356,6 +359,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             drawCenterText(canvas, paint, "Press the screen for new game");
         }
     }
+    //Function to draw game over text
     private void drawCenterText(Canvas canvas, Paint paint, String text) {
         paint.setTextAlign(Paint.Align.LEFT);
         canvas.getClipBounds(r);
