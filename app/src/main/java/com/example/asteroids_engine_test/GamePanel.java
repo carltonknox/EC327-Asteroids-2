@@ -185,12 +185,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
                 if (!collide) {
-                    if(stick.isPressed(event.getX(), event.getY()))
+                    if (stick.getIsPressed())
                     {
+                        if(button.isPressed(event.getX(), event.getY()))
+                        {
+                            bttnP=event.getPointerId(event.getActionIndex());
+                            button.setIsPressed(true);
+                        }
+
+                    }
+                    else if(stick.isPressed(event.getX(), event.getY()))
+                    {
+                        jstickP=event.getPointerId(event.getActionIndex());
                         stick.setIsPressed(true);
                     }
                     else if(button.isPressed(event.getX(), event.getY()))
                     {
+                        bttnP=event.getPointerId(event.getActionIndex());
 
                         button.setIsPressed(true);
                     }
@@ -213,9 +224,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 }
                 return true;
             case MotionEvent.ACTION_UP:
-                stick.setIsPressed(false);
-                button.setIsPressed(false);
-                stick.resetPosition();
+            case MotionEvent.ACTION_POINTER_UP:
+
+                if(jstickP==event.getPointerId(event.getActionIndex()))
+                {
+                    stick.setIsPressed(false);
+                    stick.resetPosition();
+                }
+                if(bttnP==event.getPointerId(event.getActionIndex()))
+                {
+                    button.setIsPressed(false);
+                }
+
                 return true;
         }
         return super.onTouchEvent(event);
