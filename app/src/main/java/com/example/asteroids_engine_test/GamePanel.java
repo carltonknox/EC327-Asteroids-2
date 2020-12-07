@@ -96,7 +96,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         lasers = new ArrayList<Laser>();
 
         bg = Bitmap.createScaledBitmap((BitmapFactory.decodeResource(getResources(),R.drawable.background_black)),w,h,false);
-        shp2 = Bitmap.createScaledBitmap(shp,shp.getWidth()*2/3,shp.getHeight()*2/3,false);
+
 
         ship = new SpaceShip(shp,shp2);
 

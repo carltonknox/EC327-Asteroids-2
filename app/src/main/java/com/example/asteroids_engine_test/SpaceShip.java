@@ -49,9 +49,10 @@ public class SpaceShip extends SpaceObject {
         degrees = j.getDegrees();
         matrix.setRotate(degrees);
         if (j.getPositionY() == 0 && j.getPositionX() == 0) {
-            img = Bitmap.createBitmap(ship2, 0, 0, ship1.getWidth(), ship1.getHeight(), matrix, true);
-        } else {
-            img = Bitmap.createBitmap(ship1, 0, 0, ship1.getWidth(), ship1.getHeight(), matrix, true);
+            this.img = Bitmap.createBitmap(ship2, 0, 0, ship2.getWidth(), ship2.getHeight(), matrix, true);
+        } else
+            {
+            this.img = Bitmap.createBitmap(ship1, 0, 0, ship1.getWidth(), ship1.getHeight(), matrix, true);
         }
 
         hitBox.set(this.getXY(), ship1.getHeight()/2, Color.MAGENTA);
