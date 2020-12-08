@@ -1,6 +1,12 @@
 # EC327-Asteroids-2
 EC327 Final Project - Carlton, Benjamin Marin Canseco, Alperen, Charles
 
+https://youtu.be/W8aBmaA22Ko
+
+download and run the apk file to install app on your android device, or open the root folder as a project in android studio. 
+
+To play the game, use the joystick to move and tap the screen to shoot. When the yellow bar at the top of the screen fills up, shake your phone screen to use the special move. You can set a default name in the leaderboards screen, or type a new name when you lose.
+
 
 This project implements Squares Open Source seismic library in order to detect when the phone is Shaking.
 https://github.com/square/seismic
