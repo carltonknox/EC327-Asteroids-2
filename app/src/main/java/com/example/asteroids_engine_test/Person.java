@@ -1,7 +1,5 @@
 package com.example.asteroids_engine_test;
 
-import android.view.View;
-
 public class Person implements Comparable<Person> {
     String score;
     String name;
@@ -38,6 +36,7 @@ public class Person implements Comparable<Person> {
         int compareScore = ((Person)p).getScore();
         return compareScore-this.getScore();
     }
+    //This is required for the Collections sort function to work
 
 
 }

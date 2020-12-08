@@ -103,6 +103,9 @@ public class Leaderboards extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+        //This entire try-catch sequence is responsible for a file read operation
+        //It is used to read from "data.dat" the player information, and then create Person classes
+        //These classes are then put into an array list, and sorted using Collections from java utils
 
         Person[] pe = new Person[256];
         for(int i=0;i<names.length;i++) {
@@ -162,7 +165,9 @@ public class Leaderboards extends AppCompatActivity {
 
 
     }
-    public void setDefaultName(String s) throws IOException {
+    public void setDefaultName(String s) {
+        //Before the default name file is being created or destroyed, the app does a permission check once again
+        //Just because you really can't have enough of those
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             File data = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/asteroidsname.dat");
             File parent = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOCUMENTS+"/");
