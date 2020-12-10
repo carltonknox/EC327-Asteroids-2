@@ -25,13 +25,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread thread;
     private GamePanelActivity gamePanelActivity;
     protected int w,h;
+    public double scale;
     protected ArrayList<Asteroid> asterList;
     protected SpaceShip ship;
     protected JoyStick stick;
     private FireButton button;
     private long time;
     private final int initialAsteroids = 3;
-    private final int spawnRadius = 350;//radius to spawn asteroids
+    private int spawnRadius = 350;//radius to spawn asteroids
     int chance;
     private int power=3;
 
@@ -86,6 +87,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         //gets width and height of screen
         this.w=width;
         this.h=height;
+        scale = (double)w/1080;
+        spawnRadius = (int)(350*scale);
         System.out.print(w);
         System.out.print(" ");
         System.out.println(h);
@@ -162,17 +165,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             newX = rand.nextInt(w);
             newY = rand.nextInt(h);
         }
-        System.out.print("shipX: ");
-        System.out.println(shipX);
-        System.out.print("newX: ");
-        System.out.println(newX);
 
-        int newDX = (int)((rand.nextInt(41)-20)*scaleSpeed);
-        int newDY = (int)((rand.nextInt(41)-20)*scaleSpeed);
+        int newDX = (int)((rand.nextInt(41)-20)*scaleSpeed*scale);
+        int newDY = (int)((rand.nextInt(41)-20)*scaleSpeed*scale);
         //make sure velocity is not 0
         if(newDX==0) newDX++;
         if(newDY==0) newDY++;
-        int newSize = rand.nextInt(71)+70;//random size between 70 and 140
+        int newSize = (int)((rand.nextInt(71)+70)*scale);//random size between 70 and 140
         return new Asteroid(newX,newY,newDX,newDY,newSize,astr);
     }
 
@@ -380,13 +379,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         //game over sequence
         if(collide && (counter == 0)){
             Paint paint = new Paint();
-            paint.setTextSize(70);
+            paint.setTextSize((int)(70*scale));
             paint.setColor(Color.WHITE);
             drawCenterText(canvas, paint, "Game over! Press the screen");
         }
         else if(collide && (counter!=0)) {
             Paint paint = new Paint();
-            paint.setTextSize(70);
+            paint.setTextSize((int)(scale*70));
             paint.setColor(Color.WHITE);
             drawCenterText(canvas, paint, "Press the screen for new game");
         }

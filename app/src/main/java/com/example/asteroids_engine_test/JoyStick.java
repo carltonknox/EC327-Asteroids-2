@@ -1,5 +1,6 @@
 package com.example.asteroids_engine_test;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +13,8 @@ public class JoyStick implements GameObject{
     private double pX,pY;
     private float angle;
 
+    private final static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+
     //needs coordinates so that it fits screen uses System resources to get width a height and set it
     // at a set place on any phone screen.
     public JoyStick(int x, int y)
@@ -21,8 +24,8 @@ public class JoyStick implements GameObject{
         bigY=y;
         smallX=x;
         smallY=y;
-        br=90;
-        sr=60;
+        br=90*screenWidth/1080;
+        sr=60*screenWidth/1080;
         bc = new Paint();
         bc.setColor(Color.GRAY);
         sc=new Paint();

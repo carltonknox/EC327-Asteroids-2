@@ -9,7 +9,7 @@ import android.graphics.Paint;
 
 public class SpaceShip extends SpaceObject {
     // to determine how fast we want the ship to move;
-    private final int velocity = 30;
+
     //we want ship to start in middle.
     private final static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -22,6 +22,14 @@ public class SpaceShip extends SpaceObject {
     private Circle hitBox = new Circle();
     private Paint glow;// For the special Ability
     //to overload super class not used
+
+    private double scale = (double)screenWidth/1080;
+    private final int imgSize = (int)(180*scale);
+    private final int hitboxSize = (int)(45*scale);
+    private final int specialSize = (int)(90*scale);
+
+    private final int velocity = (int)(30*scale);
+
     public SpaceShip(Bitmap ship) {
         super(screenWidth / 2, screenHeight / 2, 0, 0);
         this.img = ship;
@@ -32,8 +40,8 @@ public class SpaceShip extends SpaceObject {
     public SpaceShip(Bitmap shipon, Bitmap shipoff) {
         super(screenWidth / 2, screenHeight / 2, 0, 0);
         //scales my ships to an appropriate size;
-        Bitmap example = Bitmap.createScaledBitmap(shipon, 180, 180, true);
-        Bitmap example2 = Bitmap.createScaledBitmap(shipoff, 180, 180, true);
+        Bitmap example = Bitmap.createScaledBitmap(shipon, imgSize, imgSize, true);
+        Bitmap example2 = Bitmap.createScaledBitmap(shipoff, imgSize, imgSize, true);
         this.ship1 = example;
         this.ship2 = example2;
         glow = new Paint();
@@ -56,7 +64,7 @@ public class SpaceShip extends SpaceObject {
             this.img = Bitmap.createBitmap(ship1, 0, 0, ship1.getWidth(), ship1.getHeight(), matrix, true);
         }
         // hitbox for collision detection
-        hitBox.set(this.getXY(), 45, Color.MAGENTA);
+        hitBox.set(this.getXY(), hitboxSize, Color.MAGENTA);
     }
 
     //setter function
@@ -83,6 +91,6 @@ public class SpaceShip extends SpaceObject {
 // draw for special ability indicator
     public void drawSpecial(Canvas canvas)
     {
-        canvas.drawCircle(this.x,this.y,90,glow);
+        canvas.drawCircle(this.x,this.y,specialSize,glow);
     }
 }

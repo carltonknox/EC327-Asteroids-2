@@ -1,15 +1,19 @@
 package com.example.asteroids_engine_test;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 // this is our projectile
 public class Laser extends SpaceObject
 {
+    private final static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+
+
     //private int x,y;
     private double vX,vY;
-    private int tV=50;
-    private int r=15;
+    private int tV=50*screenWidth/1080;
+    private int r=15*screenWidth/1080;
     private float angle;
     Paint c;
 // parameter for laser start place and angle
